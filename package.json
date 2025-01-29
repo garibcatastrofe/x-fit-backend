@@ -1,0 +1,44 @@
+{
+  "name": "x-fit-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+"scripts": {
+    "build": "node --run validate-typescript && node --run build:clean && node --run generate-dist",
+    "start": "node dist/main.js",
+    "dev": "nodemon",
+    "build:clean": "rimraf dist; exit 0",
+    "validate-typescript": "tsc -p tsconfig.prod.json --noEmit",
+    "generate-dist": "swc ./src -d dist --strip-leading-paths",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{ts,js}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js}\"",
+    "lint-format": "pnpm run lint && pnpm run format"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+"dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.10.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "eslint": "^9.18.0",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-import": "^2.31.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
+  }
+}
