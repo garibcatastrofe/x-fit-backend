@@ -36,6 +36,13 @@
       "when": 1739756754937,
       "tag": "0004_black_husk",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1739772260236,
+      "tag": "0005_jazzy_scrambler",
+      "breakpoints": true
     }
   ]
 }
