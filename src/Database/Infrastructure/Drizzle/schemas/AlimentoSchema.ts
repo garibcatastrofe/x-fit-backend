@@ -1,0 +1,33 @@
+import { mysqlTable, varchar, int, mysqlEnum, double } from 'drizzle-orm/mysql-core';
+export const AlimentoSchema = mysqlTable('alimentos', {
+  id: int().autoincrement().primaryKey(),
+  nombre: varchar({ length: 60 }).notNull(),
+  calorias: double().notNull(),
+  proteinas: double().notNull(),
+  carbohidratos: double().notNull(),
+  grasas: double().notNull(),
+  clasificacion: mysqlEnum([
+    'PROTEINA',
+    'CARBOHIDRATOS',
+    'GRASAS',
+    'VEGETALES',
+    'FRUTAS',
+    'BEBIDAS',
+    'ENDULZANTES',
+    'SAZONADORES',
+    'SNACKS',
+  ]).default('PROTEINA'),
+  unidad_medida: mysqlEnum([
+    'MILILITROS',
+    'GRAMOS',
+    'PIEZA',
+    'REBANADA',
+    'MITAD',
+    'LATA',
+    'BOTELLA',
+    'SOBRE',
+    'TAZA',
+    'PORCION',
+    'CUCHARADA',
+  ]).default('MILILITROS'),
+});
