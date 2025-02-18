@@ -1,7 +1,7 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 import { ESTATUS, EstatusType } from '../../../Shared/Infrastructure/Utils/Constants/Estatus';
 
-export class UsuarioEstatus {
+export class PromocionEstatus {
   public value: string;
   private campo = 'estatus';
   public constructor(value: string) {
@@ -11,7 +11,7 @@ export class UsuarioEstatus {
   private ensureIsValid(value: string): void {
     if (!value) {
       throw new BadRequest({
-        message: 'Favor de Seleccionar un estatus',
+        message: 'Favor de Seleccionar un estatus: ACTIVO o INACTIVO',
         campo: this.campo,
       });
     }

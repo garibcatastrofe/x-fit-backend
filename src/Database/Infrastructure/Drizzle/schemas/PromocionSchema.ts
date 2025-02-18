@@ -1,11 +1,11 @@
-import { mysqlTable, int, date, double, varchar, mysqlEnum } from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, date, varchar, mysqlEnum } from 'drizzle-orm/mysql-core';
 
 export const PromocionSchema = mysqlTable('promociones', {
   id: int().autoincrement().primaryKey(),
   nombre: varchar({ length: 50 }).notNull(),
-  descuento: double().notNull(),
-  tipoDescuento: mysqlEnum(['PORCENTAJE', 'MONTO FIJO']).default('PORCENTAJE'),
-  fechaInicio: date().notNull(),
-  fechaVencimiento: date().notNull(),
-  estatus: mysqlEnum(['ACTIVA', 'INACTIVA']).default('ACTIVA'),
+  descuento: int().notNull(),
+  tipo_descuento: varchar({ length: 20 }).notNull(),
+  fecha_inicio: date().notNull(),
+  fecha_vencimiento: date().notNull(),
+  estatus: varchar({ length: 20 }).notNull(),
 });
