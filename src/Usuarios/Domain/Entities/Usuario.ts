@@ -22,7 +22,7 @@ export class Usuario {
     id: UsuarioId,
     nombres: UsuarioNombres,
     apellidos: UsuarioApellidos,
-    fechaNacimiento: UsuarioFechaNacimiento,
+    fecha_nacimiento: UsuarioFechaNacimiento,
     correo: UsuarioCorreo,
     password: UsuarioPassword,
     telefono: UsuarioTelefono,
@@ -31,7 +31,7 @@ export class Usuario {
     this.usuarioId = id;
     this.usuarioNombres = nombres;
     this.usuarioApellidos = apellidos;
-    this.usuarioFechaNacimiento = fechaNacimiento;
+    this.usuarioFechaNacimiento = fecha_nacimiento;
     this.usuarioCorreo = correo;
     this.usuarioPassword = password;
     this.usuarioTelefono = telefono;
@@ -43,7 +43,7 @@ export class Usuario {
       id: this.usuarioId.value,
       nombres: this.usuarioNombres.value,
       apellidos: this.usuarioApellidos.value,
-      fechaNacimiento: this.usuarioFechaNacimiento.value,
+      fecha_nacimiento: this.usuarioFechaNacimiento.value,
       correo: this.usuarioCorreo.value,
       password: this.usuarioPassword.value,
       telefono: this.usuarioTelefono.value,

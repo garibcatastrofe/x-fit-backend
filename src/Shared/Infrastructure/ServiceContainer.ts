@@ -30,10 +30,19 @@ import { GetPromocionById } from '@/src/Promociones/Application/GetById';
 import { UpdatePromocion } from '@/src/Promociones/Application/Update';
 import { PromocionMySQLRepository } from '@/src/Promociones/Infrastructure/DrizzleMySQLRepositoty';
 
+// EMPLEADOS
+import { CreateEmpleado } from '@/src/Empleados/Application/Create';
+import { DeleteEmpleado } from '@/src/Empleados/Application/Delete';
+import { GetAllEmpleado } from '@/src/Empleados/Application/GetAll';
+import { GetEmpleadoById } from '@/src/Empleados/Application/GetById';
+import { UpdateEmpleado } from '@/src/Empleados/Application/Update';
+import { EmpleadoMySQLRepository } from '@/src/Empleados/Infrastructure/DrizzleMySQLRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
 const PromocionRepository = new PromocionMySQLRepository();
+const EmpleadoRepository = new EmpleadoMySQLRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -63,5 +72,12 @@ export const ServiceContainer = {
     getById: new GetPromocionById(PromocionRepository),
     update: new UpdatePromocion(PromocionRepository),
     delete: new DeletePromocion(PromocionRepository),
+  },
+  Empleados: {
+    create: new CreateEmpleado(EmpleadoRepository, UsuarioRepository),
+    getAll: new GetAllEmpleado(EmpleadoRepository),
+    getById: new GetEmpleadoById(EmpleadoRepository),
+    update: new UpdateEmpleado(EmpleadoRepository, UsuarioRepository),
+    delete: new DeleteEmpleado(EmpleadoRepository),
   },
 };

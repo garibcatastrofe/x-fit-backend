@@ -2,7 +2,7 @@ import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
 export class UsuarioFechaNacimiento {
   public value: Date;
-  private campo = 'fechaNacimiento';
+  private campo = 'fecha_nacimiento';
 
   public constructor(value: string | Date) {
     this.ensureIsValid(value);

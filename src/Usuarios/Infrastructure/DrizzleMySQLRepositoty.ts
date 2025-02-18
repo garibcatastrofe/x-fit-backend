@@ -11,7 +11,7 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
       await db.insert(usuarios).values({
         nombres: usuario.nombres,
         apellidos: usuario.apellidos,
-        fechaNacimiento: usuario.fechaNacimiento,
+        fecha_nacimiento: usuario.fecha_nacimiento,
         correo: usuario.correo,
         password: usuario.password,
         telefono: usuario.telefono,
@@ -47,7 +47,7 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
         .set({
           nombres: usuario.nombres,
           apellidos: usuario.apellidos,
-          fechaNacimiento: usuario.fechaNacimiento,
+          fecha_nacimiento: usuario.fecha_nacimiento,
           correo: usuario.correo,
           password: usuario.password,
           telefono: usuario.telefono,

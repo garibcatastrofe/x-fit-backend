@@ -6,6 +6,7 @@ import { PromocionTipoDescuento } from './PromocionTipoDescuento';
 import { PromocionFechaInicio } from './PromocionFechaInicio';
 import { PromocionFechaVencimiento } from './PromocionFechaVencimiento';
 import { PromocionEstatus } from './PromocionEstatus';
+import { EstatusType } from '@/src/Shared/Domain/Interfaces/Estatus';
 
 export class Promocion {
   public promocionId: PromocionId;
@@ -42,7 +43,7 @@ export class Promocion {
       tipo_descuento: this.promocionTipoDescuento.value,
       fecha_inicio: this.promocionFechaInicio.value,
       fecha_vencimiento: this.promocionFechaVencimiento.value,
-      estatus: this.promocionEstatus.value,
+      estatus: this.promocionEstatus.value as EstatusType,
     };
   }
 }

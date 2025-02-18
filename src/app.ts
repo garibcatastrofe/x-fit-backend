@@ -8,6 +8,7 @@ import { UsuarioRouter } from './Usuarios/Infrastructure/Router';
 import { PagoRouter } from './Pagos/Infrastructure/Router';
 import { MembresiaRouter } from './Membresias/Infrastructure/Router';
 import { PromocionRouter } from './Promociones/Infrastructure/Router';
+import { EmpleadoRouter } from './Empleados/Infrastructure/Router';
 
 // CONSTS
 const PREFIX = '/api/v1';
@@ -24,6 +25,7 @@ app.use(PREFIX, UsuarioRouter);
 app.use(PREFIX, PagoRouter);
 app.use(PREFIX, MembresiaRouter);
 app.use(PREFIX, PromocionRouter);
+app.use(PREFIX, EmpleadoRouter);
 
 app.all('*', (req, res, next) => {
   res.status(404).json({ message: 'Not found' });
