@@ -1,32 +1,31 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
-export class MembresiaDuracionMeses {
+export class CpmpId {
   public value: number;
-  private campo = 'duracion_meses';
+  private campo = 'cpmp_id';
+
   public constructor(value: number) {
     this.ensureIsValid(value);
     this.value = value;
   }
+
   private ensureIsValid(value: number): void {
     if (!value)
       throw new BadRequest({
-        message: 'La duracion es necesaria',
+        message: 'El ID de la tabla CPMP es necesario',
         campo: this.campo,
       });
 
     if (isNaN(value)) {
       throw new BadRequest({
-        message: 'La duracion tiene que ser un número',
+        message: 'El ID de la tabla CPMP debe de ser un número',
         campo: this.campo,
         data: value,
       });
     }
-    if (value < 0) {
-      throw new BadRequest({
-        message: 'La duracion no tiene que ser menor a 0',
-        campo: this.campo,
-        data: value,
-      });
-    }
+  }
+  public static random(): CpmpId {
+    // This method will be replaced by auto-generated ID in the database
+    return new CpmpId(1);
   }
 }

@@ -1,12 +1,12 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
 export class PromocionFechaVencimiento {
-  public value: Date;
+  public value: string;
   private campo = 'fecha_vencimiento';
 
-  public constructor(value: string | Date) {
+  public constructor(value: string) {
     this.ensureIsValid(value);
-    this.value = value instanceof Date ? value : new Date(value);
+    this.value = value;
   }
 
   private ensureIsValid(value: string | Date): void {

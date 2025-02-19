@@ -3,7 +3,7 @@ export interface PromocionPrimitive {
   nombre: string;
   descuento: number;
   tipo_descuento: string;
-  fecha_inicio: Date;
-  fecha_vencimiento: Date;
+  fecha_inicio: string;
+  fecha_vencimiento: string;
   estatus: string;
 }

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "node --run validate-typescript && node --run build:clean && node --run generate-dist",
     "start": "node dist/main.js",
@@ -15,7 +16,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,js}\"",
     "lint-format": "pnpm run lint && pnpm run format",
     "db:generate": "drizzle-kit generate --config=./src/Database/Infrastructure/Drizzle/config.ts",
-    "db:push": "drizzle-kit push --config=./src/Database/Infrastructure/Drizzle/config.ts"
+    "db:push": "drizzle-kit push --config=./src/Database/Infrastructure/Drizzle/config.ts && node scripts/post-db-push.ts"
   },
   "keywords": [],
   "author": "",

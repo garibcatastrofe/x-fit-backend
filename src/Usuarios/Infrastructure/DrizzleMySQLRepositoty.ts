@@ -1,9 +1,9 @@
 import { db } from '@/src/Database/Infrastructure/Drizzle/DrizzleMySQLService';
 import { UsuarioSchema as usuarios } from '@/src/Database/Infrastructure/Drizzle/schemas/UsuarioSchema';
-import { UsuarioRepository } from '../Domain/Entities/UsuarioRepository';
 import { UsuarioPrimitive } from '../Domain/Interfaces/UsuarioPrimitive';
 import { IQuery } from '@/src/Shared/Domain/Interfaces/Query';
 import { asc, desc, eq } from 'drizzle-orm';
+import { UsuarioRepository } from '../Domain/Entities/UsuarioRepository'
 
 export class UsuarioMySQLRepository implements UsuarioRepository {
   public async create(usuario: Omit<UsuarioPrimitive, 'id'>): Promise<void> {

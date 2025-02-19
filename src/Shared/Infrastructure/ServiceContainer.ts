@@ -54,6 +54,14 @@ import { GetClienteById } from '@/src/Clientes/Application/GetById';
 import { UpdateCliente } from '@/src/Clientes/Application/Update';
 import { ClienteMySQLRepository } from '@/src/Clientes/Infrastructure/DrizzleMySQLRepository';
 
+// CPMPS
+import { CreateCpmp } from '@/src/Cpmp/Application/Create';
+import { DeleteCpmp } from '@/src/Cpmp/Application/Delete';
+import { GetAllCpmp } from '@/src/Cpmp/Application/GetAll';
+import { GetCpmpById } from '@/src/Cpmp/Application/GetById';
+import { UpdateCpmp } from '@/src/Cpmp/Application/Update';
+import { CpmpMySQLRepository } from '@/src/Cpmp/Infrastructure/DrizzleMySQLRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -61,6 +69,7 @@ const PromocionRepository = new PromocionMySQLRepository();
 const EmpleadoRepository = new EmpleadoMySQLRepository();
 const PonchadaRepository = new PonchadaMySQLRepository();
 const ClienteRepository = new ClienteMySQLRepository();
+const CpmpRepository = new CpmpMySQLRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -111,5 +120,24 @@ export const ServiceContainer = {
     getById: new GetClienteById(ClienteRepository),
     update: new UpdateCliente(ClienteRepository, UsuarioRepository),
     delete: new DeleteCliente(ClienteRepository),
+  },
+  Cpmps: {
+    create: new CreateCpmp(
+      CpmpRepository,
+      ClienteRepository,
+      PagoRepository,
+      MembresiaRepository,
+      PromocionRepository,
+    ),
+    getAll: new GetAllCpmp(CpmpRepository),
+    getById: new GetCpmpById(CpmpRepository),
+    update: new UpdateCpmp(
+      CpmpRepository,
+      ClienteRepository,
+      PagoRepository,
+      MembresiaRepository,
+      PromocionRepository,
+    ),
+    delete: new DeleteCpmp(CpmpRepository),
   },
 };
