@@ -38,11 +38,20 @@ import { GetEmpleadoById } from '@/src/Empleados/Application/GetById';
 import { UpdateEmpleado } from '@/src/Empleados/Application/Update';
 import { EmpleadoMySQLRepository } from '@/src/Empleados/Infrastructure/DrizzleMySQLRepository';
 
+// PONCHADAS
+import { CreatePonchada } from '@/src/Ponchadas/Application/Create';
+import { DeletePonchada } from '@/src/Ponchadas/Application/Delete';
+import { GetAllPonchadas } from '@/src/Ponchadas/Application/GetAll';
+import { GetPonchadaById } from '@/src/Ponchadas/Application/GetById';
+import { UpdatePonchada } from '@/src/Ponchadas/Application/Update';
+import { PonchadaMySQLRepository } from '@/src/Ponchadas/Infrastructure/DrizzleMySQLRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
 const PromocionRepository = new PromocionMySQLRepository();
 const EmpleadoRepository = new EmpleadoMySQLRepository();
+const PonchadaRepository = new PonchadaMySQLRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -79,5 +88,12 @@ export const ServiceContainer = {
     getById: new GetEmpleadoById(EmpleadoRepository),
     update: new UpdateEmpleado(EmpleadoRepository, UsuarioRepository),
     delete: new DeleteEmpleado(EmpleadoRepository),
+  },
+  Ponchadas: {
+    create: new CreatePonchada(PonchadaRepository, UsuarioRepository),
+    getAll: new GetAllPonchadas(PonchadaRepository),
+    getById: new GetPonchadaById(PonchadaRepository),
+    update: new UpdatePonchada(PonchadaRepository, UsuarioRepository),
+    delete: new DeletePonchada(PonchadaRepository),
   },
 };

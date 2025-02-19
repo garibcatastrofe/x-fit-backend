@@ -1,8 +1,8 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
-export class UsuarioFechaNacimiento {
+export class PonchadaFecha {
   public value: string;
-  private campo = 'fecha_nacimiento';
+  private campo = 'fecha';
 
   public constructor(value: string) {
     this.ensureIsValid(value);
@@ -12,22 +12,24 @@ export class UsuarioFechaNacimiento {
   private ensureIsValid(value: string | Date): void {
     if (!value) {
       throw new BadRequest({
-        message: 'La fecha de nacimiento es requerida',
+        message: 'La fecha y hora de ponchada son requeridas',
         campo: this.campo,
       });
     }
 
     let dateStr: string;
     if (value instanceof Date) {
-      dateStr = value.toISOString().split('T')[0];
+      dateStr = value.toISOString();
     } else {
       dateStr = value;
     }
 
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    // Expresión regular para validar fecha con hora (YYYY-MM-DD HH:MM:SS)
+    const regex = /^\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(:\d{2})?)?$/;
     if (!regex.test(dateStr)) {
       throw new BadRequest({
-        message: 'La fecha debe estar en formato YYYY-MM-DD (ejemplo: 2024-02-11)',
+        message:
+          'La fecha debe estar en formato YYYY-MM-DD HH:MM:SS (ejemplo: 2024-02-11 14:30:00)',
         campo: this.campo,
         data: dateStr,
       });

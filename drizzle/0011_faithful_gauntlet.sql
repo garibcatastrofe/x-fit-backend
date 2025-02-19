@@ -1,0 +1,1 @@
+ALTER TABLE `ponchadas` MODIFY COLUMN `fecha` datetime NOT NULL;

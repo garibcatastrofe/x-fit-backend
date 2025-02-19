@@ -2,7 +2,7 @@ export interface UsuarioPrimitive {
   id?: number;
   nombres: string;
   apellidos: string;
-  fecha_nacimiento: Date;
+  fecha_nacimiento: string;
   correo: string;
   password: string;
   telefono: string;

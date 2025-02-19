@@ -34,17 +34,8 @@ export class EmpleadoMySQLRepository implements EmpleadoRepository {
   }
 
   public async getById(id: number): Promise<EmpleadoPrimitive> {
-    const prestacionSolicitud = await db
-      .select()
-      .from(empleados)
-      .where(eq(empleados.id, id))
-      .limit(1);
-
-    if (!prestacionSolicitud[0]) {
-      throw new Error(`Empleado con id ${id} no encontrado`);
-    }
-
-    return prestacionSolicitud[0];
+    const empleado = await db.select().from(empleados).where(eq(empleados.id, id));
+    return empleado[0] ?? null;
   }
 
   public async update(id: number, empleado: EmpleadoPrimitive): Promise<void> {

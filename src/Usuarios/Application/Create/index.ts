@@ -23,6 +23,7 @@ export class CreateUsuario {
     telefono,
     estatus,
   }: UsuarioCreateDto): Promise<void> {
+    //console.log(fecha_nacimiento)
     const nuevoUsuario = new Usuario(
       id ? new UsuarioId(id) : UsuarioId.random(),
       new UsuarioNombres(nombres),

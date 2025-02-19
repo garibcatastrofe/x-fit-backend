@@ -78,6 +78,20 @@
       "when": 1739911455930,
       "tag": "0010_famous_the_captain",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1739941955051,
+      "tag": "0011_faithful_gauntlet",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1739977281258,
+      "tag": "0012_closed_gateway",
+      "breakpoints": true
     }
   ]
 }
