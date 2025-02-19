@@ -33,7 +33,7 @@ export class UpdatePonchada {
 
     const newPonchada = new Ponchada(
       new PonchadaId(ponchadaId.value),
-      new PonchadaFecha(new Date(ponchadaVieja?.fecha == undefined ? "" : ponchadaVieja.fecha)),
+      new PonchadaFecha(new Date(ponchadaVieja?.fecha == undefined ? "" : ponchadaVieja.fecha).toDateString()),
       new UsuarioId(usuario_id),
     );
 
