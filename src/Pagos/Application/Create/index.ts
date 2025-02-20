@@ -9,12 +9,12 @@ import { PagoCreateDto } from '../../Domain/Interfaces/PagoCreateDto';
 export class CreatePago {
   public constructor(private readonly pagoRepo: PagoRepository) {}
 
-  public async run({ id, monto, fecha, vencimiento }: PagoCreateDto): Promise<void> {
+  public async run({ id, monto, fecha_pago, fecha_vencimiento }: PagoCreateDto): Promise<void> {
     const nuevoPago = new Pago(
       id ? new PagoId(id) : PagoId.random(),
       new PagoMonto(monto),
-      new PagoFecha(fecha),
-      new PagoVencimiento(vencimiento),
+      new PagoFecha(fecha_pago),
+      new PagoVencimiento(fecha_vencimiento),
     );
     await this.pagoRepo.create(nuevoPago.toPagoPrimitive());
   }
