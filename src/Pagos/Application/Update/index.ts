@@ -6,7 +6,6 @@ export class UpdatePago {
 
   public async run(id: number, pago: PagoPrimitive): Promise<void> {
     await this.pagoRepo.getById(id);
-
     await this.pagoRepo.update(id, pago);
   }
 }

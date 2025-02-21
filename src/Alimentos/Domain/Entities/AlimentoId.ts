@@ -1,28 +1,31 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
-import { IS_ADMIN, IsAdminType } from '../Interfaces/IsAdmin';
 
-export class EmpleadoIsAdmin {
+export class AlimentoId {
   public value: string;
-  private campo = 'is_admin';
+  private campo = 'alimento_id';
 
   public constructor(value: string) {
     this.ensureIsValid(value);
     this.value = value;
   }
+
   private ensureIsValid(value: string): void {
-    if (!value) {
+    if (!value)
       throw new BadRequest({
-        message: 'Favor de Seleccionar una opción para is_admin: SI o NO',
+        message: 'El ID del alimento es necesario',
         campo: this.campo,
       });
-    }
-    if (!IS_ADMIN.includes(value as IsAdminType)) {
+
+    if (value === "") {
       throw new BadRequest({
-        message:
-          'No a seleccionado uno válido, favor de seleccionar un valor válido de tipo is_admin: SI o NO',
+        message: 'El ID del alimento debe de ser un string',
         campo: this.campo,
         data: value,
       });
     }
+  }
+  public static retornoVacio(): AlimentoId {
+    // This method will be replaced by auto-generated ID in the database
+    return new AlimentoId("Firebase remplazará con un ID");
   }
 }

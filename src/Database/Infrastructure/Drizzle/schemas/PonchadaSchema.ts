@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, datetime, timestamp } from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar } from 'drizzle-orm/mysql-core';
 import { UsuarioSchema } from './UsuarioSchema';
 
 export const PonchadaSchema = mysqlTable('ponchadas', {

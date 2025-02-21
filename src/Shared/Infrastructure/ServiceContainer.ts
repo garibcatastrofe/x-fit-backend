@@ -54,13 +54,13 @@ import { GetClienteById } from '@/src/Clientes/Application/GetById';
 import { UpdateCliente } from '@/src/Clientes/Application/Update';
 import { ClienteMySQLRepository } from '@/src/Clientes/Infrastructure/DrizzleMySQLRepository';
 
-// CPMPS
-import { CreateCpmp } from '@/src/Cpmp/Application/Create';
-import { DeleteCpmp } from '@/src/Cpmp/Application/Delete';
-import { GetAllCpmp } from '@/src/Cpmp/Application/GetAll';
-import { GetCpmpById } from '@/src/Cpmp/Application/GetById';
-import { UpdateCpmp } from '@/src/Cpmp/Application/Update';
-import { CpmpMySQLRepository } from '@/src/Cpmp/Infrastructure/DrizzleMySQLRepository';
+// ALIMENTOS
+import { CreateAlimento } from '@/src/Alimentos/Application/Create';
+import { DeleteAlimento } from '@/src/Alimentos/Application/Delete';
+import { GetAllAlimentos } from '@/src/Alimentos/Application/GetAll';
+import { GetAlimentoById } from '@/src/Alimentos/Application/GetById';
+import { UpdateAlimento } from '@/src/Alimentos/Application/Update';
+import { AlimentoFirebaseRepository } from '@/src/Alimentos/Infrastructure/FirebaseRepository';
 
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
@@ -69,7 +69,7 @@ const PromocionRepository = new PromocionMySQLRepository();
 const EmpleadoRepository = new EmpleadoMySQLRepository();
 const PonchadaRepository = new PonchadaMySQLRepository();
 const ClienteRepository = new ClienteMySQLRepository();
-const CpmpRepository = new CpmpMySQLRepository();
+const AlimentoRepository = new AlimentoFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -80,7 +80,12 @@ export const ServiceContainer = {
     delete: new DeleteUsuario(UsuarioRepository),
   },
   Pagos: {
-    create: new CreatePago(PagoRepository),
+    create: new CreatePago(
+      PagoRepository,
+      MembresiaRepository,
+      ClienteRepository,
+      PromocionRepository,
+    ),
     getAll: new GetAllPagos(PagoRepository),
     getById: new GetPagoById(PagoRepository),
     update: new UpdatePago(PagoRepository),
@@ -121,23 +126,11 @@ export const ServiceContainer = {
     update: new UpdateCliente(ClienteRepository, UsuarioRepository),
     delete: new DeleteCliente(ClienteRepository),
   },
-  Cpmps: {
-    create: new CreateCpmp(
-      CpmpRepository,
-      ClienteRepository,
-      PagoRepository,
-      MembresiaRepository,
-      PromocionRepository,
-    ),
-    getAll: new GetAllCpmp(CpmpRepository),
-    getById: new GetCpmpById(CpmpRepository),
-    update: new UpdateCpmp(
-      CpmpRepository,
-      ClienteRepository,
-      PagoRepository,
-      MembresiaRepository,
-      PromocionRepository,
-    ),
-    delete: new DeleteCpmp(CpmpRepository),
+  Alimentos: {
+    create: new CreateAlimento(AlimentoRepository),
+    getAll: new GetAllAlimentos(AlimentoRepository),
+    getById: new GetAlimentoById(AlimentoRepository),
+    update: new UpdateAlimento(AlimentoRepository),
+    delete: new DeleteAlimento(AlimentoRepository),
   },
 };

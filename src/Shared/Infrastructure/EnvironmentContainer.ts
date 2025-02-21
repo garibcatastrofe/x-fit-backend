@@ -17,6 +17,9 @@ export class EnvironmentContainer {
         DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_PORT: Number(process.env.DATABASE_PORT),
+        FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+        FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
+        FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
       };
 
       try {

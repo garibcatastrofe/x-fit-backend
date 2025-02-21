@@ -2,7 +2,7 @@ import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
 export class PagoFecha {
   public value: string;
-  private campo = 'fecha';
+  private campo = 'fecha_pago';
 
   public constructor(value: string) {
     this.ensureIsValid(value);

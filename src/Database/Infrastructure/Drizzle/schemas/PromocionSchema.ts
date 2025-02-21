@@ -1,4 +1,4 @@
-import { mysqlTable, int, date, varchar } from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar } from 'drizzle-orm/mysql-core';
 
 export const PromocionSchema = mysqlTable('promociones', {
   id: int().autoincrement().primaryKey(),

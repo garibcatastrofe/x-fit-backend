@@ -29,7 +29,7 @@ export class UpdatePonchada {
       });
     }
 
-    console.log(ponchadaVieja?.fecha)
+    //console.log(ponchadaVieja?.fecha)
 
     const newPonchada = new Ponchada(
       new PonchadaId(ponchadaId.value),

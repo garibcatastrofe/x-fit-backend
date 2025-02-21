@@ -3,18 +3,35 @@ import { PagoId } from './PagoId';
 import { PagoMonto } from './PagoMonto';
 import { PagoFecha } from './PagoFecha';
 import { PagoVencimiento } from './PagoVencimiento';
+import { MembresiaId } from '@/src/Membresias/Domain/Entities/MembresiaId';
+import { ClienteId } from '@/src/Clientes/Domain/Entities/ClienteId';
+import { PromocionId } from '@/src/Promociones/Domain/Entities/PromocionId';
 
 export class Pago {
   public pagoId: PagoId;
   public pagoMonto: PagoMonto;
   public pagoFecha: PagoFecha;
   public pagoVencimiento: PagoVencimiento;
+  public pagoMembresiaId: MembresiaId;
+  public pagoClienteId: ClienteId;
+  public pagoPromocionId: PromocionId;
 
-  public constructor(id: PagoId, monto: PagoMonto, fecha: PagoFecha, vencimiento: PagoVencimiento) {
-    (this.pagoId = id),
-      (this.pagoMonto = monto),
-      (this.pagoFecha = fecha),
-      (this.pagoVencimiento = vencimiento);
+  public constructor(
+    id: PagoId,
+    monto: PagoMonto,
+    fecha: PagoFecha,
+    vencimiento: PagoVencimiento,
+    pagoMembresiaId: MembresiaId,
+    pagoClienteId: ClienteId,
+    pagoPromocionId: PromocionId,
+  ) {
+    this.pagoId = id;
+    this.pagoMonto = monto;
+    this.pagoFecha = fecha;
+    this.pagoVencimiento = vencimiento;
+    this.pagoMembresiaId = pagoMembresiaId;
+    this.pagoClienteId = pagoClienteId;
+    this.pagoPromocionId = pagoPromocionId;
   }
 
   public toPagoPrimitive(): PagoPrimitive {
@@ -23,6 +40,9 @@ export class Pago {
       monto: this.pagoMonto.value,
       fecha_pago: this.pagoFecha.value,
       fecha_vencimiento: this.pagoVencimiento.value,
+      membresia_id: this.pagoMembresiaId.value,
+      cliente_id: this.pagoClienteId.value,
+      promocion_id: this.pagoPromocionId.value,
     };
   }
 }

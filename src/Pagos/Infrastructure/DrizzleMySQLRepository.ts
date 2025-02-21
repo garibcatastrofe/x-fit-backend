@@ -12,6 +12,9 @@ export class PagoMySQLRepository implements PagoRepository {
         monto: pago.monto,
         fecha_pago: pago.fecha_pago,
         fecha_vencimiento: pago.fecha_vencimiento,
+        membresia_id: pago.membresia_id,
+        cliente_id: pago.cliente_id,
+        promocion_id: pago.promocion_id,
       });
     } catch (error) {
       console.error(error);

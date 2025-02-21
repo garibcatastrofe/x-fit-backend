@@ -1,31 +1,32 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
-export class CpmpId {
+export class AlimentoProteinas {
   public value: number;
-  private campo = 'cpmp_id';
-
+  private campo = 'proteinas';
   public constructor(value: number) {
     this.ensureIsValid(value);
     this.value = value;
   }
-
   private ensureIsValid(value: number): void {
-    if (!value)
+    /* if (!value)
       throw new BadRequest({
-        message: 'El ID de la tabla CPMP es necesario',
+        message: 'Las proteínas del alimento son necesarias',
         campo: this.campo,
-      });
+      }); */
 
     if (isNaN(value)) {
       throw new BadRequest({
-        message: 'El ID de la tabla CPMP debe de ser un número',
+        message: 'Las proteínas tienen que ser un número',
         campo: this.campo,
         data: value,
       });
     }
-  }
-  public static random(): CpmpId {
-    // This method will be replaced by auto-generated ID in the database
-    return new CpmpId(1);
+    if (value < 0) {
+      throw new BadRequest({
+        message: 'Las proteínas no tienen que ser menor a 0',
+        campo: this.campo,
+        data: value,
+      });
+    }
   }
 }

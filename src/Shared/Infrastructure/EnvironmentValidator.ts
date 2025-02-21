@@ -10,6 +10,9 @@ const environmentSchema = z.object({
   DATABASE_PASSWORD: z.string(),
   DATABASE_HOST: z.string(),
   DATABASE_PORT: z.number(),
+  FIREBASE_PROJECT_ID: z.string(),
+  FIREBASE_PRIVATE_KEY: z.string(),
+  FIREBASE_CLIENT_EMAIL: z.string()
 });
 
 export function validateEnvironment(env: unknown): Environment {
