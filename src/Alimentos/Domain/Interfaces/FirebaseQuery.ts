@@ -1,4 +1,4 @@
-import { AlimentoPrimitive } from '../Interfaces/AlimentoPrimitive';
+import { AlimentoPrimitive } from './AlimentoPrimitive';
 //import { Alimento } from '../Entities/Alimento'
 
 export interface AlimentoQuery<T> {

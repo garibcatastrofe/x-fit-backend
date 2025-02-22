@@ -1,5 +1,5 @@
 import { AlimentoPrimitive } from '../Domain/Interfaces/AlimentoPrimitive';
-import { AlimentoQuery } from '../Domain/Interfaces/Query';
+import { AlimentoQuery } from '../Domain/Interfaces/FirebaseQuery';
 import { AlimentoRepository } from '../Domain/Entities/AlimentoRepository';
 import { firestore } from '@/src/Database/Infrastructure/Firebase/firebase';
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
@@ -15,7 +15,6 @@ function esAlimentoPrimitive(
   return (
     typeof objeto.nombre === 'string' &&
     typeof objeto.clasificacion === 'string' &&
-    typeof objeto.calorias === 'number' &&
     typeof objeto.proteinas === 'number' &&
     typeof objeto.carbohidratos === 'number' &&
     typeof objeto.grasas === 'number' &&

@@ -2,7 +2,6 @@ import { AlimentoPrimitive } from '../Interfaces/AlimentoPrimitive';
 import { AlimentoId } from './AlimentoId';
 import { AlimentoNombre } from './AlimentoNombre';
 import { AlimentoClasificacion } from './AlimentoClasificacion';
-import { AlimentoCalorias } from './AlimentoCalorias';
 import { AlimentoProteinas } from './AlimentoProteinas';
 import { AlimentoCarbohidratos } from './AlimentoCarbohidratos';
 import { AlimentoGrasas } from './AlimentoGrasas';
@@ -14,7 +13,6 @@ export class Alimento {
   public alimentoId: AlimentoId;
   public alimentoNombre: AlimentoNombre;
   public alimentoClasificacion: AlimentoClasificacion;
-  public alimentoCalorias: AlimentoCalorias;
   public alimentoProteinas: AlimentoProteinas;
   public alimentoCarbohidratos: AlimentoCarbohidratos;
   public alimentoGrasas: AlimentoGrasas;
@@ -24,7 +22,6 @@ export class Alimento {
     id: AlimentoId,
     nombre: AlimentoNombre,
     clasificacion: AlimentoClasificacion,
-    calorias: AlimentoCalorias,
     proteinas: AlimentoProteinas,
     carbohidratos: AlimentoCarbohidratos,
     grasas: AlimentoGrasas,
@@ -33,7 +30,6 @@ export class Alimento {
     this.alimentoId = id;
     this.alimentoNombre = nombre;
     this.alimentoClasificacion = clasificacion;
-    this.alimentoCalorias = calorias;
     this.alimentoProteinas = proteinas;
     this.alimentoCarbohidratos = carbohidratos;
     this.alimentoGrasas = grasas;
@@ -45,7 +41,6 @@ export class Alimento {
       id: this.alimentoId.value,
       nombre: this.alimentoNombre.value,
       clasificacion: this.alimentoClasificacion.value as ClasificacionType,
-      calorias: this.alimentoCalorias.value,
       proteinas: this.alimentoProteinas.value,
       carbohidratos: this.alimentoCarbohidratos.value,
       grasas: this.alimentoGrasas.value,

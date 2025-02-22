@@ -1,4 +1,4 @@
-import { AlimentoQuery } from '../../Domain/Interfaces/Query';
+import { AlimentoQuery } from '../../Domain/Interfaces/FirebaseQuery';
 import { AlimentoRepository } from '../../Domain/Entities/AlimentoRepository';
 import { AlimentoPrimitive } from '../../Domain/Interfaces/AlimentoPrimitive';
 

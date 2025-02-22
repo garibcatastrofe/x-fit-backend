@@ -1,4 +1,4 @@
-import { AlimentoQuery } from '../Interfaces/Query';
+import { AlimentoQuery } from '../Interfaces/FirebaseQuery';
 import { AlimentoPrimitive } from '../Interfaces/AlimentoPrimitive';
 
 export interface AlimentoRepository {

@@ -2,7 +2,6 @@ import { Alimento } from '../../Domain/Entities/Alimento';
 import { AlimentoId } from '../../Domain/Entities/AlimentoId';
 import { AlimentoNombre } from '../../Domain/Entities/AlimentoNombre';
 import { AlimentoClasificacion } from '../../Domain/Entities/AlimentoClasificacion';
-import { AlimentoCalorias } from '../../Domain/Entities/AlimentoCalorias';
 import { AlimentoProteinas } from '../../Domain/Entities/AlimentoProteinas';
 import { AlimentoCarbohidratos } from '../../Domain/Entities/AlimentoCarbohidratos';
 import { AlimentoGrasas } from '../../Domain/Entities/AlimentoGrasas';
@@ -21,7 +20,6 @@ export class UpdateAlimento {
       new AlimentoId(alimentoId.value),
       new AlimentoNombre(alimento.nombre),
       new AlimentoClasificacion(alimento.clasificacion),
-      new AlimentoCalorias(alimento.calorias),
       new AlimentoProteinas(alimento.proteinas),
       new AlimentoCarbohidratos(alimento.carbohidratos),
       new AlimentoGrasas(alimento.grasas),

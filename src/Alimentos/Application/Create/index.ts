@@ -2,7 +2,6 @@ import { Alimento } from '../../Domain/Entities/Alimento';
 import { AlimentoId } from '../../Domain/Entities/AlimentoId';
 import { AlimentoNombre } from '../../Domain/Entities/AlimentoNombre';
 import { AlimentoClasificacion } from '../../Domain/Entities/AlimentoClasificacion';
-import { AlimentoCalorias } from '../../Domain/Entities/AlimentoCalorias';
 import { AlimentoProteinas } from '../../Domain/Entities/AlimentoProteinas';
 import { AlimentoCarbohidratos } from '../../Domain/Entities/AlimentoCarbohidratos';
 import { AlimentoGrasas } from '../../Domain/Entities/AlimentoGrasas';
@@ -17,7 +16,6 @@ export class CreateAlimento {
     id,
     nombre,
     clasificacion,
-    calorias,
     proteinas,
     carbohidratos,
     grasas,
@@ -27,7 +25,6 @@ export class CreateAlimento {
       id ? new AlimentoId(id) : AlimentoId.retornoVacio(),
       new AlimentoNombre(nombre),
       new AlimentoClasificacion(clasificacion),
-      new AlimentoCalorias(calorias),
       new AlimentoProteinas(proteinas),
       new AlimentoCarbohidratos(carbohidratos),
       new AlimentoGrasas(grasas),

@@ -1,0 +1,21 @@
+export const GRUPO_MUSCULAR = [
+  'PECTORAL',
+  'ESPALDA',
+  'TRAPECIO',
+  'DELTOIDES ANTERIOR',
+  'DELTOIDES MEDIO',
+  'DELTOIDES POSTERIOR',
+  'TRICEPS',
+  'BICEPS',
+  'ANTEBRAZO',
+  'ABDOMEN',
+  'GLUTEOS',
+  'CUADRICEPS',
+  'ISQUIOSURALES',
+  'PANTORRILLAS',
+  'ADUCTORES',
+  'CARDIOVASCULAR',
+  'CALENTAMIENTO',
+] as const;
+
+export type GrupoMuscularType = (typeof GRUPO_MUSCULAR)[number];

@@ -12,6 +12,7 @@ import { EmpleadoRouter } from './Empleados/Infrastructure/Router';
 import { PonchadaRouter } from './Ponchadas/Infrastructure/Router';
 import { ClienteRouter } from './Clientes/Infrastructure/Router';
 import { AlimentoRouter } from './Alimentos/Infrastructure/Router';
+import { EjercicioRouter } from './Ejercicios/Infrastructure/Router';
 
 // CONSTS
 const PREFIX = '/api/v1';
@@ -32,6 +33,7 @@ app.use(PREFIX, EmpleadoRouter);
 app.use(PREFIX, PonchadaRouter);
 app.use(PREFIX, ClienteRouter);
 app.use(PREFIX, AlimentoRouter);
+app.use(PREFIX, EjercicioRouter);
 
 app.all('*', (req, res, next) => {
   res.status(404).json({ message: 'Not found' });
