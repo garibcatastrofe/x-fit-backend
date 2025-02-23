@@ -70,6 +70,14 @@ import { GetEjercicioById } from '@/src/Ejercicios/Application/GetById';
 import { UpdateEjercicio } from '@/src/Ejercicios/Application/Update';
 import { EjercicioFirebaseRepository } from '@/src/Ejercicios/Infrastructure/FirebaseRepository';
 
+// DIETAS
+import { CreateDieta } from '@/src/Dietas/Application/Create';
+/* import { DeleteEjercicio } from '@/src/Ejercicios/Application/Delete';
+import { GetAllEjercicios } from '@/src/Ejercicios/Application/GetAll';
+import { GetEjercicioById } from '@/src/Ejercicios/Application/GetById';
+import { UpdateEjercicio } from '@/src/Ejercicios/Application/Update'; */
+import { DietaFirebaseRepository } from '@/src/Dietas/Infrastructure/FirebaseRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -79,6 +87,7 @@ const PonchadaRepository = new PonchadaMySQLRepository();
 const ClienteRepository = new ClienteMySQLRepository();
 const AlimentoRepository = new AlimentoFirebaseRepository();
 const EjercicioRepository = new EjercicioFirebaseRepository();
+const DietaRepository = new DietaFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -148,5 +157,12 @@ export const ServiceContainer = {
     getById: new GetEjercicioById(EjercicioRepository),
     update: new UpdateEjercicio(EjercicioRepository),
     delete: new DeleteEjercicio(EjercicioRepository),
+  },
+  Dietas: {
+    create: new CreateDieta(DietaRepository),
+    /* getAll: new GetAllEjercicios(EjercicioRepository),
+    getById: new GetEjercicioById(EjercicioRepository),
+    update: new UpdateEjercicio(EjercicioRepository),
+    delete: new DeleteEjercicio(EjercicioRepository), */
   },
 };
