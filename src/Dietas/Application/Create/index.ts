@@ -33,6 +33,28 @@ export class CreateDieta {
     factor_actividad,
     platillos,
   }: DietaCreateDto): Promise<void> {
+    // ⚡ Validamos todos los alimentos antes de crear la dieta
+    const desayunoAlimentos = await Promise.all(
+      platillos.desayuno.alimentos.map(a => AlimentoDieta.create(a.id_alimento, a.cantidad)),
+    );
+
+    const snack1Alimentos = await Promise.all(
+      platillos.snack_1.alimentos.map(a => AlimentoDieta.create(a.id_alimento, a.cantidad)),
+    );
+
+    const comidaAlimentos = await Promise.all(
+      platillos.comida.alimentos.map(a => AlimentoDieta.create(a.id_alimento, a.cantidad)),
+    );
+
+    const snack2Alimentos = await Promise.all(
+      platillos.snack_2.alimentos.map(a => AlimentoDieta.create(a.id_alimento, a.cantidad)),
+    );
+
+    const cenaAlimentos = await Promise.all(
+      platillos.cena.alimentos.map(a => AlimentoDieta.create(a.id_alimento, a.cantidad)),
+    );
+
+    // ✅ Ahora que los alimentos están validados, creamos la dieta
     const nuevaDieta = new Dieta(
       id ? new DietaId(id) : DietaId.retornoVacio(),
       new DietaClienteId(id_cliente),
@@ -46,28 +68,14 @@ export class CreateDieta {
       new DietaObjetivo(objetivo),
       new DietaFactorActividad(factor_actividad),
       new DietaPlatillos(
-        new Platillo(
-          platillos.desayuno.comentario,
-          platillos.desayuno.alimentos.map(a => new AlimentoDieta(a.id_alimento, a.cantidad)),
-        ),
-        new Platillo(
-          platillos.snack_1.comentario,
-          platillos.snack_1.alimentos.map(a => new AlimentoDieta(a.id_alimento, a.cantidad)),
-        ),
-        new Platillo(
-          platillos.comida.comentario,
-          platillos.comida.alimentos.map(a => new AlimentoDieta(a.id_alimento, a.cantidad)),
-        ),
-        new Platillo(
-          platillos.snack_2.comentario,
-          platillos.snack_2.alimentos.map(a => new AlimentoDieta(a.id_alimento, a.cantidad)),
-        ),
-        new Platillo(
-          platillos.cena.comentario,
-          platillos.cena.alimentos.map(a => new AlimentoDieta(a.id_alimento, a.cantidad)),
-        ),
+        new Platillo(platillos.desayuno.comentario, desayunoAlimentos),
+        new Platillo(platillos.snack_1.comentario, snack1Alimentos),
+        new Platillo(platillos.comida.comentario, comidaAlimentos),
+        new Platillo(platillos.snack_2.comentario, snack2Alimentos),
+        new Platillo(platillos.cena.comentario, cenaAlimentos),
       ),
     );
+
     await this.dietaRepo.create(nuevaDieta.toDietaPrimitive());
   }
 }

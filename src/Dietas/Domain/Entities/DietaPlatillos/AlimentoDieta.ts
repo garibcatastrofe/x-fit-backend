@@ -1,5 +1,6 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 import { AlimentoDietaPrimitive } from '../../Interfaces/DietaPrimitive';
+import { firestore } from '@/src/Database/Infrastructure/Firebase/firebase';
 
 export class AlimentoDieta {
   public id_alimento: string;
@@ -8,43 +9,49 @@ export class AlimentoDieta {
   private campoId = 'id_alimento';
   private campoCantidad = 'cantidad';
 
-  public constructor(id_alimento: string, cantidad: number) {
-    this.ensureIsValid(id_alimento, cantidad);
+  private constructor(id_alimento: string, cantidad: number) {
     this.id_alimento = id_alimento;
     this.cantidad = cantidad;
   }
 
-  private ensureIsValid(id_alimento: string, cantidad: number): void {
+  public static async create(id_alimento: string, cantidad: number): Promise<AlimentoDieta> {
+    // Validaciones antes de crear la instancia
     if (!id_alimento) {
       throw new BadRequest({
         message: 'El ID del alimento es necesario',
-        campo: this.campoId,
+        campo: 'id_alimento',
         data: id_alimento,
       });
     }
 
-    if (id_alimento.length > 50)
+    if (id_alimento.length > 50) {
       throw new BadRequest({
         message: 'El id del alimento en la dieta debe de ser menor a 50 caracteres',
-        campo: this.id_alimento,
+        campo: 'id_alimento',
         data: id_alimento,
       });
+    }
 
-    if (cantidad <= 0) {
+    if (cantidad <= 0 || cantidad > 2000) {
       throw new BadRequest({
-        message: 'La cantidad debe ser mayor a 0',
-        campo: this.campoCantidad,
+        message: 'La cantidad debe estar entre 1 y 2000',
+        campo: 'cantidad',
         data: cantidad,
       });
     }
 
-    if (cantidad > 2000) {
+    // Validar que el alimento exista en Firestore
+    const docSnap = await firestore.collection('alimentos').doc(id_alimento).get();
+    if (!docSnap.exists) {
       throw new BadRequest({
-        message: 'La cantidad debe ser menor a 2000',
-        campo: this.campoCantidad,
-        data: cantidad,
+        message: 'No se encontró el alimento en Firestore.',
+        campo: 'id_alimento',
+        data: id_alimento,
       });
     }
+
+    // Si pasa todas las validaciones, se crea la instancia
+    return new AlimentoDieta(id_alimento, cantidad);
   }
 
   public toPrimitive(): AlimentoDietaPrimitive {
@@ -54,3 +61,4 @@ export class AlimentoDieta {
     };
   }
 }
+

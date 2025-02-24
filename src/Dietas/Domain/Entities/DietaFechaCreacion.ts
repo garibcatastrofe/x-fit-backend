@@ -1,15 +1,15 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
 export class DietaFechaCreacion {
-  public value: string;
+  public value: Date;
   private campo = 'fecha_creacion';
 
-  public constructor(value: string) {
+  public constructor(value: Date) {
     this.ensureIsValid(value);
     this.value = value;
   }
 
-  private ensureIsValid(value: string | Date): void {
+  private ensureIsValid(value: Date): void {
     if (!value) {
       throw new BadRequest({
         message: 'La fecha y hora de fecha creación son requeridas',

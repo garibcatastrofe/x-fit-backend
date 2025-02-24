@@ -2,7 +2,7 @@ export interface DietaPrimitive {
   id?: string;
   id_cliente: number;
   id_empleado: number;
-  fecha_creacion: string; // Formato ISO 8601 "YYYY-MM-DD"
+  fecha_creacion: Date; // Formato ISO 8601 "YYYY-MM-DD"
   peso_kilogramos: number;
   estatura_centimetros: number;
   cuello_pulgadas: number;
