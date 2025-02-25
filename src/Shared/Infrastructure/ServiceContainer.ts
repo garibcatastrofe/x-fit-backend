@@ -62,7 +62,7 @@ import { GetAlimentoById } from '@/src/Alimentos/Application/GetById';
 import { UpdateAlimento } from '@/src/Alimentos/Application/Update';
 import { AlimentoFirebaseRepository } from '@/src/Alimentos/Infrastructure/FirebaseRepository';
 
-// ALIMENTOS
+// EJERCICIOS
 import { CreateEjercicio } from '@/src/Ejercicios/Application/Create';
 import { DeleteEjercicio } from '@/src/Ejercicios/Application/Delete';
 import { GetAllEjercicios } from '@/src/Ejercicios/Application/GetAll';
@@ -86,6 +86,14 @@ import { GetRutinaById } from '@/src/Rutinas/Application/GetById';
 import { UpdateRutina } from '@/src/Rutinas/Application/Update';
 import { RutinaFirebaseRepository } from '@/src/Rutinas/Infrastructure/FirebaseRepository';
 
+// MEDICIONES
+import { CreateMedicion } from '@/src/Mediciones/Application/Create';
+import { DeleteMedicion } from '@/src/Mediciones/Application/Delete';
+import { GetAllMediciones } from '@/src/Mediciones/Application/GetAll';
+import { GetMedicionById } from '@/src/Mediciones/Application/GetById';
+import { UpdateMedicion } from '@/src/Mediciones/Application/Update';
+import { MedicionFirebaseRepository } from '@/src/Mediciones/Infrastructure/FirebaseRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -97,6 +105,7 @@ const AlimentoRepository = new AlimentoFirebaseRepository();
 const EjercicioRepository = new EjercicioFirebaseRepository();
 const DietaRepository = new DietaFirebaseRepository();
 const RutinaRepository = new RutinaFirebaseRepository();
+const MedicionRepository = new MedicionFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -180,5 +189,12 @@ export const ServiceContainer = {
     getById: new GetRutinaById(RutinaRepository),
     update: new UpdateRutina(RutinaRepository),
     delete: new DeleteRutina(RutinaRepository),
+  },
+  Mediciones: {
+    create: new CreateMedicion(MedicionRepository),
+    getAll: new GetAllMediciones(MedicionRepository),
+    getById: new GetMedicionById(MedicionRepository),
+    update: new UpdateMedicion(MedicionRepository),
+    delete: new DeleteMedicion(MedicionRepository),
   },
 };
