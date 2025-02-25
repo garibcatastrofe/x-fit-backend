@@ -6,7 +6,7 @@ import { EjercicioRepeticiones } from '../../Domain/Entities/EjercicioRepeticion
 import { EjercicioDescanso } from '../../Domain/Entities/EjercicioDescanso';
 import { EjercicioEjecucion } from '../../Domain/Entities/EjercicioEjecucion';
 import { EjercicioTempo } from '../../Domain/Entities/EjercicioTempo';
-import { EjercicioGrupoMuscular } from '../../Domain/Entities/EjercicioGrupoMuscular';
+import { GrupoMuscular } from '@/src/Shared/Domain/Entities/GrupoMuscular';
 import { EjercicioRepository } from '../../Domain/Entities/EjercicioRepository';
 import { EjercicioCreateDto } from '../../Domain/Interfaces/EjercicioCreateDto';
 
@@ -31,7 +31,7 @@ export class CreateEjercicio {
       new EjercicioDescanso(descanso),
       new EjercicioEjecucion(ejecucion),
       new EjercicioTempo(tempo),
-      new EjercicioGrupoMuscular(grupo_muscular),
+      new GrupoMuscular(grupo_muscular),
     );
     await this.ejercicioRepo.create(nuevoEjercicio.toEjercicioPrimitive());
   }

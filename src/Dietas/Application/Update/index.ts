@@ -1,7 +1,7 @@
 import { Dieta } from '../../Domain/Entities/Dieta';
 import { DietaId } from '../../Domain/Entities/DietaId';
-import { DietaClienteId } from '../../Domain/Entities/DietaClienteId';
-import { DietaEmpleadoId } from '../../Domain/Entities/DietaEmpleadoId';
+import { ClienteId } from '@/src/Clientes/Domain/Entities/ClienteId';
+import { EmpleadoId } from '@/src/Empleados/Domain/Entities/EmpleadoId';
 import { DietaFechaCreacion } from '../../Domain/Entities/DietaFechaCreacion';
 import { DietaPesoKilogramos } from '../../Domain/Entities/DietaPesoKilogramos';
 import { DietaEstaturaCentimetros } from '../../Domain/Entities/DietaEstaturaCentimetros';
@@ -10,6 +10,7 @@ import { DietaCinturaPulgadas } from '../../Domain/Entities/DietaCinturaPulgadas
 import { DietaCaderaPulgadas } from '../../Domain/Entities/DietaCaderaPulgadas';
 import { DietaObjetivo } from '../../Domain/Entities/DietaObjetivo';
 import { DietaFactorActividad } from '../../Domain/Entities/DietaFactorActividad';
+import { Visible } from '@/src/Shared/Domain/Entities/Visible';
 import { DietaPlatillos } from '../../Domain/Entities/DietaPlatillos/PlatillosDieta';
 import { DietaRepository } from '../../Domain/Entities/DietaRepository';
 import { DietaPrimitive } from '../../Domain/Interfaces/DietaPrimitive';
@@ -46,8 +47,8 @@ export class UpdateDieta {
     // ✅ Ahora que los alimentos están validados, creamos la dieta
     const newDieta = new Dieta(
       id ? new DietaId(id) : DietaId.retornoVacio(),
-      new DietaClienteId(dieta.id_cliente),
-      new DietaEmpleadoId(dieta.id_empleado),
+      new ClienteId(dieta.id_cliente),
+      new EmpleadoId(dieta.id_empleado),
       new DietaFechaCreacion(dieta.fecha_creacion),
       new DietaPesoKilogramos(dieta.peso_kilogramos),
       new DietaEstaturaCentimetros(dieta.estatura_centimetros),
@@ -56,6 +57,7 @@ export class UpdateDieta {
       new DietaCaderaPulgadas(dieta.cadera_pulgadas),
       new DietaObjetivo(dieta.objetivo),
       new DietaFactorActividad(dieta.factor_actividad),
+      new Visible(dieta.visible),
       new DietaPlatillos(
         new Platillo(dieta.platillos.desayuno.comentario, desayunoAlimentos),
         new Platillo(dieta.platillos.snack_1.comentario, snack1Alimentos),

@@ -6,7 +6,7 @@ import { EjercicioRepeticiones } from '../../Domain/Entities/EjercicioRepeticion
 import { EjercicioDescanso } from '../../Domain/Entities/EjercicioDescanso';
 import { EjercicioEjecucion } from '../../Domain/Entities/EjercicioEjecucion';
 import { EjercicioTempo } from '../../Domain/Entities/EjercicioTempo';
-import { EjercicioGrupoMuscular } from '../../Domain/Entities/EjercicioGrupoMuscular';
+import { GrupoMuscular } from '@/src/Shared/Domain/Entities/GrupoMuscular';
 import { EjercicioRepository } from '../../Domain/Entities/EjercicioRepository';
 import { EjercicioPrimitive } from '../../Domain/Interfaces/EjercicioPrimitive';
 
@@ -25,7 +25,7 @@ export class UpdateEjercicio {
       new EjercicioDescanso(ejercicio.descanso),
       new EjercicioEjecucion(ejercicio.ejecucion),
       new EjercicioTempo(ejercicio.tempo),
-      new EjercicioGrupoMuscular(ejercicio.grupo_muscular),
+      new GrupoMuscular(ejercicio.grupo_muscular),
     );
     await this.ejercicioRepo.update(ejercicioId.value, newEjercicio.toEjercicioPrimitive());
   }

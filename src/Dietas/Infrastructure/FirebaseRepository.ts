@@ -23,7 +23,8 @@ function esDietaPrimitive(
     typeof objeto.cintura_pulgadas === 'number' &&
     typeof objeto.cadera_pulgadas === 'number' &&
     typeof objeto.objetivo === 'string' &&
-    typeof objeto.factor_actividad === 'string'
+    typeof objeto.factor_actividad === 'string' &&
+    typeof objeto.visible === 'string'
   );
 }
 

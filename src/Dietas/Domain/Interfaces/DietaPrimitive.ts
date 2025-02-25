@@ -10,6 +10,7 @@ export interface DietaPrimitive {
   cadera_pulgadas: number;
   objetivo: string; // Ejemplo: "Recomposición corporal"
   factor_actividad: string; // Ejemplo: "Sedentario"
+  visible: string;
   platillos: PlatillosPrimitive;
 }
 

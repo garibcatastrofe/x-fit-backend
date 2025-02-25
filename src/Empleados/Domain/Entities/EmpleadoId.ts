@@ -23,6 +23,14 @@ export class EmpleadoId {
         data: value,
       });
     }
+
+    if (value < 0) {
+      throw new BadRequest({
+        message: 'El id del cliente no tiene que ser menor a 0',
+        campo: this.campo,
+        data: value,
+      });
+    }
   }
   public static random(): EmpleadoId {
     // This method will be replaced by auto-generated ID in the database

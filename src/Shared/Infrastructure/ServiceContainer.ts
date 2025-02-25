@@ -78,6 +78,14 @@ import { GetDietaById } from '@/src/Dietas/Application/GetById';
 import { UpdateDieta } from '@/src/Dietas/Application/Update';
 import { DietaFirebaseRepository } from '@/src/Dietas/Infrastructure/FirebaseRepository';
 
+// RUTINAS
+import { CreateRutina } from '@/src/Rutinas/Application/Create';
+import { DeleteRutina } from '@/src/Rutinas/Application/Delete';
+import { GetAllRutinas } from '@/src/Rutinas/Application/GetAll';
+import { GetRutinaById } from '@/src/Rutinas/Application/GetById';
+import { UpdateRutina } from '@/src/Rutinas/Application/Update';
+import { RutinaFirebaseRepository } from '@/src/Rutinas/Infrastructure/FirebaseRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -88,6 +96,7 @@ const ClienteRepository = new ClienteMySQLRepository();
 const AlimentoRepository = new AlimentoFirebaseRepository();
 const EjercicioRepository = new EjercicioFirebaseRepository();
 const DietaRepository = new DietaFirebaseRepository();
+const RutinaRepository = new RutinaFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -164,5 +173,12 @@ export const ServiceContainer = {
     getById: new GetDietaById(DietaRepository),
     update: new UpdateDieta(DietaRepository),
     delete: new DeleteDieta(DietaRepository),
+  },
+  Rutinas: {
+    create: new CreateRutina(RutinaRepository),
+    getAll: new GetAllRutinas(RutinaRepository),
+    getById: new GetRutinaById(RutinaRepository),
+    update: new UpdateRutina(RutinaRepository),
+    delete: new DeleteRutina(RutinaRepository),
   },
 };

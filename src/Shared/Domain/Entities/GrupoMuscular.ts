@@ -1,7 +1,7 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
-import { GRUPO_MUSCULAR, GrupoMuscularType } from '../Interfaces/GrupoMuscular';
+import { GRUPO_MUSCULAR, GrupoMuscularType } from '@/src/Shared/Domain/Interfaces/GrupoMuscular';
 
-export class EjercicioGrupoMuscular {
+export class GrupoMuscular {
   public value: string;
   private campo = 'grupo_muscular';
 

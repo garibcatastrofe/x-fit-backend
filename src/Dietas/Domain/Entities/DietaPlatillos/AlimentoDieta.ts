@@ -6,9 +6,6 @@ export class AlimentoDieta {
   public id_alimento: string;
   public cantidad: number;
 
-  private campoId = 'id_alimento';
-  private campoCantidad = 'cantidad';
-
   private constructor(id_alimento: string, cantidad: number) {
     this.id_alimento = id_alimento;
     this.cantidad = cantidad;

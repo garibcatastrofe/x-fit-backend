@@ -6,8 +6,8 @@ import { EjercicioRepeticiones } from './EjercicioRepeticiones';
 import { EjercicioDescanso } from './EjercicioDescanso';
 import { EjercicioEjecucion } from './EjercicioEjecucion';
 import { EjercicioTempo } from './EjercicioTempo';
-import { EjercicioGrupoMuscular } from './EjercicioGrupoMuscular';
-import { GrupoMuscularType } from '../Interfaces/GrupoMuscular';
+import { GrupoMuscular } from '@/src/Shared/Domain/Entities/GrupoMuscular';
+import { GrupoMuscularType } from '@/src/Shared/Domain/Interfaces/GrupoMuscular';
 
 export class Ejercicio {
   public ejercicioId: EjercicioId;
@@ -17,7 +17,7 @@ export class Ejercicio {
   public ejercicioDescanso: EjercicioDescanso;
   public ejercicioEjecucion: EjercicioEjecucion;
   public ejercicioTempo: EjercicioTempo;
-  public ejercicioGrupoMuscular: EjercicioGrupoMuscular;
+  public ejercicioGrupoMuscular: GrupoMuscular;
 
   public constructor(
     id: EjercicioId,
@@ -27,7 +27,7 @@ export class Ejercicio {
     descanso: EjercicioDescanso,
     ejecucion: EjercicioEjecucion,
     tempo: EjercicioTempo,
-    grupo_muscular: EjercicioGrupoMuscular,
+    grupo_muscular: GrupoMuscular,
   ) {
     this.ejercicioId = id;
     this.ejercicioNombre = nombre;
