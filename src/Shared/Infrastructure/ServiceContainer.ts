@@ -94,6 +94,14 @@ import { GetMedicionById } from '@/src/Mediciones/Application/GetById';
 import { UpdateMedicion } from '@/src/Mediciones/Application/Update';
 import { MedicionFirebaseRepository } from '@/src/Mediciones/Infrastructure/FirebaseRepository';
 
+// RUFFIERS
+import { CreateRuffier } from '@/src/Ruffiers/Application/Create';
+import { DeleteRuffier } from '@/src/Ruffiers/Application/Delete';
+import { GetAllRuffiers } from '@/src/Ruffiers/Application/GetAll';
+import { GetRuffierById } from '@/src/Ruffiers/Application/GetById';
+import { UpdateRuffier } from '@/src/Ruffiers/Application/Update';
+import { RuffierFirebaseRepository } from '@/src/Ruffiers/Infrastructure/FirebaseRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -106,6 +114,7 @@ const EjercicioRepository = new EjercicioFirebaseRepository();
 const DietaRepository = new DietaFirebaseRepository();
 const RutinaRepository = new RutinaFirebaseRepository();
 const MedicionRepository = new MedicionFirebaseRepository();
+const RuffierRepository = new RuffierFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -196,5 +205,12 @@ export const ServiceContainer = {
     getById: new GetMedicionById(MedicionRepository),
     update: new UpdateMedicion(MedicionRepository),
     delete: new DeleteMedicion(MedicionRepository),
+  },
+  Ruffiers: {
+    create: new CreateRuffier(RuffierRepository),
+    getAll: new GetAllRuffiers(RuffierRepository),
+    getById: new GetRuffierById(RuffierRepository),
+    update: new UpdateRuffier(RuffierRepository),
+    delete: new DeleteRuffier(RuffierRepository),
   },
 };
