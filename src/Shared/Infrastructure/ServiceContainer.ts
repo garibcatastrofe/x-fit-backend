@@ -94,6 +94,14 @@ import { GetEncuestaById } from '@/src/Encuestas/Application/GetById';
 import { UpdateEncuesta } from '@/src/Encuestas/Application/Update';
 import { EncuestaFirebaseRepository } from '@/src/Encuestas/Infrastructure/FirebaseRepository';
 
+// RESPUESTAS
+import { CreateRespuesta } from '@/src/Respuestas/Application/Create';
+import { DeleteRespuesta } from '@/src/Respuestas/Application/Delete';
+import { GetAllRespuestas } from '@/src/Respuestas/Application/GetAll';
+import { GetRespuestaById } from '@/src/Respuestas/Application/GetById';
+import { UpdateRespuesta } from '@/src/Respuestas/Application/Update';
+import { RespuestaFirebaseRepository } from '@/src/Respuestas/Infrastructure/FirebaseRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -106,6 +114,7 @@ const EjercicioRepository = new EjercicioFirebaseRepository();
 const DietaRepository = new DietaFirebaseRepository();
 const RutinaRepository = new RutinaFirebaseRepository();
 const EncuestaRepository = new EncuestaFirebaseRepository();
+const RespuestaRepository = new RespuestaFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -196,5 +205,12 @@ export const ServiceContainer = {
     getById: new GetEncuestaById(EncuestaRepository),
     update: new UpdateEncuesta(EncuestaRepository),
     delete: new DeleteEncuesta(EncuestaRepository),
+  },
+  Respuestas: {
+    create: new CreateRespuesta(RespuestaRepository),
+    getAll: new GetAllRespuestas(RespuestaRepository),
+    getById: new GetRespuestaById(RespuestaRepository),
+    update: new UpdateRespuesta(RespuestaRepository),
+    delete: new DeleteRespuesta(RespuestaRepository),
   },
 };

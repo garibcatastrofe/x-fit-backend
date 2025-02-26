@@ -1,8 +1,8 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
-export class PreguntaTexto {
+export class RespuestaRespuesta {
   public value: string;
-  private campo = 'texto';
+  private campo = 'respuesta';
 
   public constructor(value: string) {
     this.ensureIsValid(value);
@@ -11,21 +11,21 @@ export class PreguntaTexto {
   private ensureIsValid(value: string): void {
     if (!value)
       throw new BadRequest({
-        message: 'El texto es necesario',
+        message: 'La respuesta es necesario',
         campo: this.campo,
         data: value,
       });
 
     if (value.length < 3)
       throw new BadRequest({
-        message: 'El texto debe ser de al menos 3 caracteres',
+        message: 'La respuesta debe ser de al menos 3 caracteres',
         campo: this.campo,
         data: value,
       });
 
     if (value.length > 500)
       throw new BadRequest({
-        message: 'El texto debe ser menor de 500 caracteres',
+        message: 'La respuesta debe ser menor de 500 caracteres',
         campo: this.campo,
         data: value,
       });

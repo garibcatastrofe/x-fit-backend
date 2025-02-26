@@ -1,33 +1,31 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
-export class PreguntaTexto {
+export class RespuestaId {
   public value: string;
-  private campo = 'texto';
+  private campo = 'respuesta_id';
 
   public constructor(value: string) {
     this.ensureIsValid(value);
     this.value = value;
   }
+
   private ensureIsValid(value: string): void {
     if (!value)
       throw new BadRequest({
-        message: 'El texto es necesario',
+        message: 'El ID de la respuesta es necesario',
         campo: this.campo,
-        data: value,
       });
 
-    if (value.length < 3)
+    if (value === '') {
       throw new BadRequest({
-        message: 'El texto debe ser de al menos 3 caracteres',
+        message: 'El ID de la respuesta debe de ser un string',
         campo: this.campo,
         data: value,
       });
-
-    if (value.length > 500)
-      throw new BadRequest({
-        message: 'El texto debe ser menor de 500 caracteres',
-        campo: this.campo,
-        data: value,
-      });
+    }
+  }
+  public static retornoVacio(): RespuestaId {
+    // This method will be replaced by auto-generated ID in the database
+    return new RespuestaId('Firebase remplazará con un ID');
   }
 }

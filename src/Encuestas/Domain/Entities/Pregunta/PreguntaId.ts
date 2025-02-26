@@ -1,5 +1,4 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
-import { v4 as uuidv4 } from 'uuid';
 
 export class PreguntaId {
   public value: string;
@@ -24,9 +23,5 @@ export class PreguntaId {
         data: value,
       });
     }
-  }
-  public static retornoVacio(): PreguntaId {
-    // This method will be replaced by auto-generated ID in the database
-    return new PreguntaId(uuidv4());
   }
 }
