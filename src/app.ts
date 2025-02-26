@@ -15,8 +15,7 @@ import { AlimentoRouter } from './Alimentos/Infrastructure/Router';
 import { EjercicioRouter } from './Ejercicios/Infrastructure/Router';
 import { DietaRouter } from './Dietas/Infrastructure/Router';
 import { RutinaRouter } from './Rutinas/Infrastructure/Router';
-import { MedicionRouter } from './Mediciones/Infrastructure/Router';
-import { RuffierRouter } from './Ruffiers/Infrastructure/Router';
+import { EncuestaRouter } from './Encuestas/Infrastructure/Router';
 
 // CONSTS
 const PREFIX = '/api/v1';
@@ -40,8 +39,7 @@ app.use(PREFIX, AlimentoRouter);
 app.use(PREFIX, EjercicioRouter);
 app.use(PREFIX, DietaRouter);
 app.use(PREFIX, RutinaRouter);
-app.use(PREFIX, MedicionRouter);
-app.use(PREFIX, RuffierRouter);
+app.use(PREFIX, EncuestaRouter);
 
 app.all('*', (req, res, next) => {
   res.status(404).json({ message: 'Not found' });

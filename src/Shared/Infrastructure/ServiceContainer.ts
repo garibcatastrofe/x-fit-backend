@@ -86,21 +86,13 @@ import { GetRutinaById } from '@/src/Rutinas/Application/GetById';
 import { UpdateRutina } from '@/src/Rutinas/Application/Update';
 import { RutinaFirebaseRepository } from '@/src/Rutinas/Infrastructure/FirebaseRepository';
 
-// MEDICIONES
-import { CreateMedicion } from '@/src/Mediciones/Application/Create';
-import { DeleteMedicion } from '@/src/Mediciones/Application/Delete';
-import { GetAllMediciones } from '@/src/Mediciones/Application/GetAll';
-import { GetMedicionById } from '@/src/Mediciones/Application/GetById';
-import { UpdateMedicion } from '@/src/Mediciones/Application/Update';
-import { MedicionFirebaseRepository } from '@/src/Mediciones/Infrastructure/FirebaseRepository';
-
-// RUFFIERS
-import { CreateRuffier } from '@/src/Ruffiers/Application/Create';
-import { DeleteRuffier } from '@/src/Ruffiers/Application/Delete';
-import { GetAllRuffiers } from '@/src/Ruffiers/Application/GetAll';
-import { GetRuffierById } from '@/src/Ruffiers/Application/GetById';
-import { UpdateRuffier } from '@/src/Ruffiers/Application/Update';
-import { RuffierFirebaseRepository } from '@/src/Ruffiers/Infrastructure/FirebaseRepository';
+// ENCUESTAS
+import { CreateEncuesta } from '@/src/Encuestas/Application/Create';
+import { DeleteEncuesta } from '@/src/Encuestas/Application/Delete';
+import { GetAllEncuestas } from '@/src/Encuestas/Application/GetAll';
+import { GetEncuestaById } from '@/src/Encuestas/Application/GetById';
+import { UpdateEncuesta } from '@/src/Encuestas/Application/Update';
+import { EncuestaFirebaseRepository } from '@/src/Encuestas/Infrastructure/FirebaseRepository';
 
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
@@ -113,8 +105,7 @@ const AlimentoRepository = new AlimentoFirebaseRepository();
 const EjercicioRepository = new EjercicioFirebaseRepository();
 const DietaRepository = new DietaFirebaseRepository();
 const RutinaRepository = new RutinaFirebaseRepository();
-const MedicionRepository = new MedicionFirebaseRepository();
-const RuffierRepository = new RuffierFirebaseRepository();
+const EncuestaRepository = new EncuestaFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -199,18 +190,11 @@ export const ServiceContainer = {
     update: new UpdateRutina(RutinaRepository),
     delete: new DeleteRutina(RutinaRepository),
   },
-  Mediciones: {
-    create: new CreateMedicion(MedicionRepository),
-    getAll: new GetAllMediciones(MedicionRepository),
-    getById: new GetMedicionById(MedicionRepository),
-    update: new UpdateMedicion(MedicionRepository),
-    delete: new DeleteMedicion(MedicionRepository),
-  },
-  Ruffiers: {
-    create: new CreateRuffier(RuffierRepository),
-    getAll: new GetAllRuffiers(RuffierRepository),
-    getById: new GetRuffierById(RuffierRepository),
-    update: new UpdateRuffier(RuffierRepository),
-    delete: new DeleteRuffier(RuffierRepository),
+  Encuestas: {
+    create: new CreateEncuesta(EncuestaRepository),
+    getAll: new GetAllEncuestas(EncuestaRepository),
+    getById: new GetEncuestaById(EncuestaRepository),
+    update: new UpdateEncuesta(EncuestaRepository),
+    delete: new DeleteEncuesta(EncuestaRepository),
   },
 };
