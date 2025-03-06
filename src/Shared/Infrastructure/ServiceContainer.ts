@@ -102,6 +102,14 @@ import { GetRespuestaById } from '@/src/Respuestas/Application/GetById';
 import { UpdateRespuesta } from '@/src/Respuestas/Application/Update';
 import { RespuestaFirebaseRepository } from '@/src/Respuestas/Infrastructure/FirebaseRepository';
 
+// REPORTES
+import { CreateReporte } from '@/src/Reportes/Application/Create';
+import { DeleteReporte } from '@/src/Reportes/Application/Delete';
+import { GetAllReportes } from '@/src/Reportes/Application/GetAll';
+import { GetReporteById } from '@/src/Reportes/Application/GetById';
+import { UpdateReporte } from '@/src/Reportes/Application/Update';
+import { ReporteFirebaseRepository } from '@/src/Reportes/Infrastructure/FirebaseRepository';
+
 const UsuarioRepository = new UsuarioMySQLRepository();
 const PagoRepository = new PagoMySQLRepository();
 const MembresiaRepository = new MembresiaMySQLRepository();
@@ -115,6 +123,7 @@ const DietaRepository = new DietaFirebaseRepository();
 const RutinaRepository = new RutinaFirebaseRepository();
 const EncuestaRepository = new EncuestaFirebaseRepository();
 const RespuestaRepository = new RespuestaFirebaseRepository();
+const ReporteRepository = new ReporteFirebaseRepository();
 
 export const ServiceContainer = {
   Usuarios: {
@@ -212,5 +221,12 @@ export const ServiceContainer = {
     getById: new GetRespuestaById(RespuestaRepository),
     update: new UpdateRespuesta(RespuestaRepository),
     delete: new DeleteRespuesta(RespuestaRepository),
+  },
+  Reportes: {
+    create: new CreateReporte(ReporteRepository),
+    getAll: new GetAllReportes(ReporteRepository),
+    getById: new GetReporteById(ReporteRepository),
+    update: new UpdateReporte(ReporteRepository),
+    delete: new DeleteReporte(ReporteRepository),
   },
 };

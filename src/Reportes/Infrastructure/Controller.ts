@@ -1,16 +1,16 @@
-import { EncuestaPrimitive } from '../Domain/Interfaces/EncuestaPrimitive';
+import { ReportePrimitive } from '../Domain/Interfaces/ReportePrimitive';
 import { ServiceContainer } from '@/src/Shared/Infrastructure/ServiceContainer';
 import { NextFunction, Request, Response } from 'express';
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
-const { Encuestas: Encuesta } = ServiceContainer;
+const { Reportes: Reporte } = ServiceContainer;
 
-export class EncuestaController {
+export class ReporteController {
   public async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const body = req.body;
-      await Encuesta.create.run(body);
-      res.status(201).json({ message: 'Encuesta creada exitosamente' });
+      await Reporte.create.run(body);
+      res.status(201).json({ message: 'Reporte creado exitosamente' });
     } catch (error) {
       next(error);
     }
@@ -18,12 +18,19 @@ export class EncuestaController {
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { perPage = 5, order = 'asc', orderBy = 'id', direction = 'next' } = req.query;
-      const ultimaEncuesta = req.body;
+      const ultimaDieta = req.body;
 
-      const validKeys: (keyof EncuestaPrimitive)[] = ['id', 'id_empleado', 'fecha', 'nombre'];
+      const validKeys: (keyof ReportePrimitive)[] = [
+        'id',
+        'id_cliente',
+        'id_rutina',
+        'bloque',
+        'sesion',
+        'fecha',
+      ];
 
       // Validar que orderBy es una clave válida
-      if (!validKeys.includes(orderBy as keyof EncuestaPrimitive)) {
+      if (!validKeys.includes(orderBy as keyof ReportePrimitive)) {
         throw new BadRequest({
           message: 'El campo orderBy no es válido.',
           campo: 'orderBy',
@@ -31,15 +38,15 @@ export class EncuestaController {
         });
       }
 
-      const encuestas = await Encuesta.getAll.run({
-        ultimoDoc: ultimaEncuesta,
+      const reportes = await Reporte.getAll.run({
+        ultimoDoc: ultimaDieta,
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
-        orderBy: orderBy as keyof EncuestaPrimitive, // Ahora está validado
+        orderBy: orderBy as keyof ReportePrimitive, // Ahora está validado
         direction: String(direction),
       });
 
-      res.status(200).json(encuestas);
+      res.status(200).json(reportes);
     } catch (error) {
       next(error);
     }
@@ -47,8 +54,8 @@ export class EncuestaController {
   public async getById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
-      const encuesta = await Encuesta.getById.run(String(id));
-      res.status(200).json(encuesta);
+      const reporte = await Reporte.getById.run(String(id));
+      res.status(200).json(reporte);
     } catch (error) {
       next(error);
     }
@@ -58,12 +65,12 @@ export class EncuestaController {
     try {
       const { id } = req.params;
       if (Object.keys(req.body).length === 0) {
-        res.status(400).json({ error: 'Faltan datos para actualizar la encuesta.' });
-        throw new Error(`Favor de proporcionar un alimento.`);
+        res.status(400).json({ error: 'Faltan datos para actualizar el reporte.' });
+        throw new Error(`Favor de proporcionar un reporte.`);
       }
-      const dieta = req.body;
-      await Encuesta.update.run(String(id), dieta);
-      res.status(200).json({ message: `La encuesta con el id ${id} fue actualizada exitosamente` });
+      const reporte = req.body;
+      await Reporte.update.run(String(id), reporte);
+      res.status(200).json({ message: `El reporte con el id ${id} fue actualizada exitosamente` });
     } catch (error) {
       console.warn('Entró al error');
       next(error);
@@ -73,8 +80,8 @@ export class EncuestaController {
   public async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
-      await Encuesta.delete.run(String(id));
-      res.status(200).json({ message: `La encuesta con el id ${id} fue eliminada exitosamente` });
+      await Reporte.delete.run(String(id));
+      res.status(200).json({ message: `El reporte con el id ${id} fue eliminado exitosamente` });
     } catch (error) {
       next(error);
     }

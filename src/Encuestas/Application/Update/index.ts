@@ -2,6 +2,7 @@ import { Encuesta } from '../../Domain/Entities/Encuesta';
 import { EncuestaId } from '../../Domain/Entities/EncuestaId';
 import { EmpleadoId } from '@/src/Empleados/Domain/Entities/EmpleadoId';
 import { EncuestaFecha } from '../../Domain/Entities/EncuestaFecha';
+import { EncuestaNombre } from '../../Domain/Entities/EncuestaNombre';
 import { Pregunta } from '../../Domain/Entities/Pregunta/Pregunta';
 import { EncuestaRepository } from '../../Domain/Entities/EncuestaRepository';
 import { PreguntaId } from '../../Domain/Entities/Pregunta/PreguntaId';
@@ -21,6 +22,7 @@ export class UpdateEncuesta {
       id ? new EncuestaId(id) : EncuestaId.retornoVacio(),
       new EmpleadoId(encuesta.id_empleado),
       new EncuestaFecha(encuesta.fecha),
+      new EncuestaNombre(encuesta.nombre),
       encuesta.preguntas.map(
         p =>
           new Pregunta(

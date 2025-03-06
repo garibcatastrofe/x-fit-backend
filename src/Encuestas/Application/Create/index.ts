@@ -2,6 +2,7 @@ import { Encuesta } from '../../Domain/Entities/Encuesta';
 import { EncuestaId } from '../../Domain/Entities/EncuestaId';
 import { EmpleadoId } from '@/src/Empleados/Domain/Entities/EmpleadoId';
 import { EncuestaFecha } from '../../Domain/Entities/EncuestaFecha';
+import { EncuestaNombre } from '../../Domain/Entities/EncuestaNombre';
 import { Pregunta } from '../../Domain/Entities/Pregunta/Pregunta';
 import { EncuestaRepository } from '../../Domain/Entities/EncuestaRepository';
 import { EncuestaCreateDto } from '../../Domain/Interfaces/EncuestaCreateDto';
@@ -14,11 +15,18 @@ import { PreguntaOpciones } from '../../Domain/Entities/Pregunta/PreguntaOpcione
 export class CreateEncuesta {
   public constructor(private readonly encuestaRepo: EncuestaRepository) {}
 
-  public async run({ id, id_empleado, fecha, preguntas }: EncuestaCreateDto): Promise<void> {
+  public async run({
+    id,
+    id_empleado,
+    fecha,
+    nombre,
+    preguntas,
+  }: EncuestaCreateDto): Promise<void> {
     const nuevaEncuesta = new Encuesta(
       id ? new EncuestaId(id) : EncuestaId.retornoVacio(),
       new EmpleadoId(id_empleado),
       new EncuestaFecha(fecha),
+      new EncuestaNombre(nombre),
       preguntas.map(
         p =>
           new Pregunta(

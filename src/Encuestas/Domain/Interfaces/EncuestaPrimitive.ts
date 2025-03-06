@@ -2,6 +2,7 @@ export interface EncuestaPrimitive {
   id?: string;
   id_empleado: number;
   fecha: Date;
+  nombre: string;
   preguntas: Pregunta[];
 }
 

@@ -13,7 +13,11 @@ function esEncuestaPrimitive(
 
   if (conId && typeof objeto.id !== 'string') return false; // `id` solo es obligatorio si `conId` es `true`
 
-  return typeof objeto.id_empleado === 'number' && typeof objeto.fecha === 'string';
+  return (
+    typeof objeto.id_empleado === 'number' &&
+    typeof objeto.fecha === 'string' &&
+    typeof objeto.nombre === 'string'
+  );
 }
 
 export class EncuestaFirebaseRepository implements EncuestaRepository {
