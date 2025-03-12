@@ -30,7 +30,7 @@ export class CreateUsuario {
       new UsuarioApellidos(apellidos),
       new UsuarioFechaNacimiento(fecha_nacimiento),
       new UsuarioCorreo(correo),
-      new UsuarioPassword(password),
+      new UsuarioPassword(password == null ? "" : password),
       new UsuarioTelefono(telefono),
       new UsuarioEstatus(estatus),
     );

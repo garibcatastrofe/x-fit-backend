@@ -4,7 +4,7 @@ export interface UsuarioPrimitive {
   apellidos: string;
   fecha_nacimiento: string;
   correo: string;
-  password: string;
+  password?: string;
   telefono: string;
   estatus: string
 }

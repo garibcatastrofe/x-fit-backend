@@ -7,4 +7,7 @@ export interface UsuarioRepository {
   getById(id: number): Promise<UsuarioPrimitive | null>;
   update(id: number, usuario: UsuarioPrimitive): Promise<void>;
   delete(id: number): Promise<void>;
+  login(correo: string, password: string): Promise<UsuarioPrimitive[]>;
+  verify(): Promise<void>;
+  logout(): Promise<void>;
 }

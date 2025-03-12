@@ -2,8 +2,8 @@ import { db } from '@/src/Database/Infrastructure/Drizzle/DrizzleMySQLService';
 import { UsuarioSchema as usuarios } from '@/src/Database/Infrastructure/Drizzle/schemas/UsuarioSchema';
 import { UsuarioPrimitive } from '../Domain/Interfaces/UsuarioPrimitive';
 import { IQuery } from '@/src/Shared/Domain/Interfaces/Query';
-import { asc, desc, eq } from 'drizzle-orm';
-import { UsuarioRepository } from '../Domain/Entities/UsuarioRepository'
+import { asc, desc, eq, and } from 'drizzle-orm';
+import { UsuarioRepository } from '../Domain/Entities/UsuarioRepository';
 
 export class UsuarioMySQLRepository implements UsuarioRepository {
   public async create(usuario: Omit<UsuarioPrimitive, 'id'>): Promise<void> {
@@ -13,7 +13,7 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
         apellidos: usuario.apellidos,
         fecha_nacimiento: usuario.fecha_nacimiento,
         correo: usuario.correo,
-        password: usuario.password,
+        password: usuario.password == null ? '' : usuario.password,
         telefono: usuario.telefono,
         estatus: usuario.estatus,
       });
@@ -35,9 +35,34 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
       .offset(page * perPage);
     return usuarioall;
   }
+
   public async getById(id: number): Promise<UsuarioPrimitive | null> {
-    const usuario = await db.select().from(usuarios).where(eq(usuarios.id, id));
+    const usuario = await db
+      .select({
+        id: usuarios.id,
+        nombres: usuarios.nombres,
+        apellidos: usuarios.apellidos,
+        fecha_nacimiento: usuarios.fecha_nacimiento,
+        correo: usuarios.correo,
+        telefono: usuarios.telefono,
+        estatus: usuarios.estatus,
+      })
+      .from(usuarios)
+      .where(eq(usuarios.id, id));
     return usuario[0] ?? null;
+  }
+
+  public async login(correo: string, password: string): Promise<UsuarioPrimitive[]> {
+    const usuario = await db
+      .select()
+      .from(usuarios)
+      .where(and(eq(usuarios.correo, correo), eq(usuarios.password, password)));
+
+    console.warn(correo);
+    console.warn(password);
+    console.warn(usuario);
+
+    return usuario ?? null;
   }
 
   public async update(id: number, usuario: UsuarioPrimitive): Promise<void> {
@@ -65,4 +90,6 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
       console.error(error);
     }
   }
+  public async verify(): Promise<void> {}
+  public async logout(): Promise<void> {}
 }

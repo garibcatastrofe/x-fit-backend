@@ -1,6 +1,7 @@
 // Config
 import express from 'express';
 import cors from 'cors';
+import cookieParser from "cookie-parser";
 import handlerError from './Shared/Infrastructure/Utils/Middlewares/HandlerError';
 
 // Routers
@@ -26,7 +27,13 @@ const app = express();
 
 // Config
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Tu frontend
+    credentials: true, // Permitir envío de cookies
+  })
+);
+app.use(cookieParser());
 
 // Routes
 /* swaggerSpec(app); */

@@ -4,6 +4,9 @@ import { DeleteUsuario } from '@/src/Usuarios/Application/Delete';
 import { GetAllUsuarios } from '@/src/Usuarios/Application/GetAll';
 import { GetUsuarioById } from '@/src/Usuarios/Application/GetById';
 import { UpdateUsuario } from '@/src/Usuarios/Application/Update';
+import { Login } from '@/src/Usuarios/Application/Login'
+import { Verify } from '@/src/Usuarios/Application/Verify'
+import { Logout } from '@/src/Usuarios/Application/Logout'
 import { UsuarioMySQLRepository } from '@/src/Usuarios/Infrastructure/DrizzleMySQLRepositoty';
 
 // PAGOS
@@ -132,6 +135,9 @@ export const ServiceContainer = {
     getById: new GetUsuarioById(UsuarioRepository),
     update: new UpdateUsuario(UsuarioRepository),
     delete: new DeleteUsuario(UsuarioRepository),
+    login: new Login(UsuarioRepository),
+    verify: new Verify(),
+    logout: new Logout()
   },
   Pagos: {
     create: new CreatePago(
