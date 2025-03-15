@@ -1,7 +1,6 @@
 import { Cliente } from '../../Domain/Entities/Cliente';
 import { ClienteId } from '../../Domain/Entities/ClienteId';
 import { ClienteFechaInicio } from '../../Domain/Entities/ClienteFechaInicio';
-import { ClienteGenero } from '../../Domain/Entities/ClienteGenero';
 import { ClienteTipo } from '../../Domain/Entities/ClienteTipo';
 import { UsuarioId } from '@/src/Usuarios/Domain/Entities/UsuarioId';
 
@@ -17,13 +16,7 @@ export class CreateCliente {
     private readonly usuarioRepo: UsuarioRepository,
   ) {}
 
-  public async run({
-    id,
-    fecha_inicio,
-    genero,
-    tipo,
-    usuario_id,
-  }: ClienteCreateDto): Promise<void> {
+  public async run({ id, fecha_inicio, tipo, usuario_id }: ClienteCreateDto): Promise<void> {
     const usuario = await this.usuarioRepo.getById(usuario_id);
     if (!usuario) {
       throw new BadRequest({
@@ -37,7 +30,6 @@ export class CreateCliente {
       id ? new ClienteId(id) : ClienteId.random(),
       new ClienteFechaInicio(fecha_inicio),
       new ClienteTipo(tipo),
-      new ClienteGenero(genero),
       new UsuarioId(usuario_id),
     );
     await this.clienteRepo.create(newCliente.toPrimitive());

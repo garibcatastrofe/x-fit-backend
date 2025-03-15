@@ -1,7 +1,6 @@
 import { Cliente } from '../../Domain/Entities/Cliente';
 import { ClienteId } from '../../Domain/Entities/ClienteId';
 import { ClienteFechaInicio } from '../../Domain/Entities/ClienteFechaInicio';
-import { ClienteGenero } from '../../Domain/Entities/ClienteGenero';
 import { ClienteTipo } from '../../Domain/Entities/ClienteTipo';
 import { UsuarioId } from '@/src/Usuarios/Domain/Entities/UsuarioId';
 
@@ -40,7 +39,6 @@ export class UpdateCliente {
         ).toDateString(),
       ),
       new ClienteTipo(clienteViejo == null ? 'NORMAL' : clienteViejo.tipo),
-      new ClienteGenero(clienteViejo == null ? 'M' : clienteViejo.genero),
       new UsuarioId(usuario_id),
     );
     await this.clienteRepo.update(clienteId.value, newCliente.toPrimitive());

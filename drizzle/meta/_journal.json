@@ -120,6 +120,13 @@
       "when": 1740114382650,
       "tag": "0016_flimsy_azazel",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "5",
+      "when": 1741908714016,
+      "tag": "0017_lowly_nomad",
+      "breakpoints": true
     }
   ]
 }

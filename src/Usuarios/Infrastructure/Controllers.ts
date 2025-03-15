@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ServiceContainer } from '@/src/Shared/Infrastructure/ServiceContainer';
 import { UsuarioPrimitive } from '../Domain/Interfaces/UsuarioPrimitive';
 import jwt from 'jsonwebtoken';
-//import cookieParser from "cookie-parser";
+import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 
 const { Usuarios: Usuario } = ServiceContainer;
 const SECRET_KEY = 'secreto_super_seguro';
@@ -11,8 +11,34 @@ export class UsuarioController {
   public async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const body = req.body;
+      const usuarioCorreo = await Usuario.getAll.run({
+        page: 0,
+        perPage: 1,
+        order: 'desc',
+        orderBy: "id",
+        eqAtribute: "correo",
+        atribute: body.correo,
+      });
+
+      if(usuarioCorreo.data.length === 1) {
+        throw new BadRequest({
+          message: 'Ya existe un usuario con ese correo',
+          campo: 'correo',
+        });
+      }
+
       await Usuario.create.run(body);
-      res.status(201).json({ message: 'Usuario creado exitosamente' });
+      const ultimoUsuario = await Usuario.getAll.run({
+        page: 0,
+        perPage: 1,
+        order: 'desc',
+        orderBy: 'id',
+        eqAtribute: 'id',
+        atribute: '0',
+      });
+      res
+        .status(201)
+        .json({ id: ultimoUsuario.data[0].usuario.id, message: 'Usuario creado exitosamente' });
     } catch (error) {
       next(error);
     }
@@ -20,12 +46,21 @@ export class UsuarioController {
 
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 1, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 1,
+        perPage = 10,
+        order = 'asc',
+        orderBy = 'id',
+        eqAtribute = 'id',
+        atribute = '1',
+      } = req.query;
       const usuarios = await Usuario.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof UsuarioPrimitive,
+        eqAtribute: eqAtribute as keyof UsuarioPrimitive,
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(usuarios);

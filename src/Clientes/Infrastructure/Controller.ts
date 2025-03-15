@@ -1,5 +1,6 @@
 import { ClientePrimitive } from '../Domain/Interfaces/ClientePrimitive';
 import { ServiceContainer } from '@/src/Shared/Infrastructure/ServiceContainer';
+import { UsuarioPrimitive } from '@/src/Usuarios/Domain/Interfaces/UsuarioPrimitive';
 import { NextFunction, Request, Response } from 'express';
 
 const { Clientes: Cliente } = ServiceContainer;
@@ -16,12 +17,40 @@ export class ClienteController {
   }
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 0, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 0,
+        perPage = 10,
+        order = 'asc',
+        orderBy = 'id',
+        eqAtribute = '',
+        atribute = '',
+      } = req.query;
+
+      const validOrderByFields = [
+        'id',
+        'nombres',
+        'apellidos',
+        'genero',
+        'fecha_nacimiento',
+        'correo',
+        'telefono',
+        'estatus',
+        'fecha_inicio',
+        'tipo',
+        'usuario_id',
+      ];
+
+      if (!validOrderByFields.includes(orderBy.toString())) {
+        throw new Error(`Invalid orderBy field: ${orderBy}`);
+      }
+
       const cliente = await Cliente.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
-        orderBy: orderBy as keyof ClientePrimitive,
+        orderBy: orderBy as keyof (ClientePrimitive | UsuarioPrimitive),
+        eqAtribute: eqAtribute as keyof (ClientePrimitive | UsuarioPrimitive),
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(cliente);

@@ -1,7 +1,7 @@
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
 import { GENERO, GeneroType } from '../Interfaces/Genero';
 
-export class ClienteGenero {
+export class UsuarioGenero {
   public value: string;
   private campo = 'genero';
   public constructor(value: string) {

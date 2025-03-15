@@ -7,7 +7,7 @@ import { UpdateUsuario } from '@/src/Usuarios/Application/Update';
 import { Login } from '@/src/Usuarios/Application/Login'
 import { Verify } from '@/src/Usuarios/Application/Verify'
 import { Logout } from '@/src/Usuarios/Application/Logout'
-import { UsuarioMySQLRepository } from '@/src/Usuarios/Infrastructure/DrizzleMySQLRepositoty';
+import { UsuarioMySQLRepository } from '@/src/Usuarios/Infrastructure/DrizzleMySQLRepository';
 
 // PAGOS
 import { CreatePago } from '@/src/Pagos/Application/Create';
