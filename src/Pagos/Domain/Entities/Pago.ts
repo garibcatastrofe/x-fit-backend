@@ -4,7 +4,6 @@ import { PagoMonto } from './PagoMonto';
 import { PagoFecha } from './PagoFecha';
 import { PagoVencimiento } from './PagoVencimiento';
 import { MembresiaId } from '@/src/Membresias/Domain/Entities/MembresiaId';
-import { ClienteId } from '@/src/Clientes/Domain/Entities/ClienteId';
 import { PromocionId } from '@/src/Promociones/Domain/Entities/PromocionId';
 
 export class Pago {
@@ -13,7 +12,6 @@ export class Pago {
   public pagoFecha: PagoFecha;
   public pagoVencimiento: PagoVencimiento;
   public pagoMembresiaId: MembresiaId;
-  public pagoClienteId: ClienteId;
   public pagoPromocionId: PromocionId;
 
   public constructor(
@@ -22,7 +20,6 @@ export class Pago {
     fecha: PagoFecha,
     vencimiento: PagoVencimiento,
     pagoMembresiaId: MembresiaId,
-    pagoClienteId: ClienteId,
     pagoPromocionId: PromocionId,
   ) {
     this.pagoId = id;
@@ -30,7 +27,6 @@ export class Pago {
     this.pagoFecha = fecha;
     this.pagoVencimiento = vencimiento;
     this.pagoMembresiaId = pagoMembresiaId;
-    this.pagoClienteId = pagoClienteId;
     this.pagoPromocionId = pagoPromocionId;
   }
 
@@ -41,7 +37,6 @@ export class Pago {
       fecha_pago: this.pagoFecha.value,
       fecha_vencimiento: this.pagoVencimiento.value,
       membresia_id: this.pagoMembresiaId.value,
-      cliente_id: this.pagoClienteId.value,
       promocion_id: this.pagoPromocionId.value,
     };
   }

@@ -85,15 +85,12 @@ export class UsuarioController {
       const { correo, password, isWeb } = req.body;
       const usuario = await Usuario.login.run(correo, password, isWeb);
 
-      if (usuario.length === 0) {
+      if (usuario == null) {
         res.status(401).json({ message: 'Correo o contraseña incorrectos' });
         return;
       }
 
-      const idArray = usuario.map(u => u.id);
-      const id = idArray[0];
-
-      console.warn("ID DEL USUARIO RECUPERADO: ", id)
+      const id = usuario.id;
 
       if (isWeb === 'true') {
         const empleado = await Empleado.getAll.run({
@@ -104,9 +101,7 @@ export class UsuarioController {
           eqAtribute: 'usuario_id' as keyof (EmpleadoPrimitive | UsuarioPrimitive),
           atribute: id == null ? '' : id.toString(),
         });
-        console.warn("IMPRIMIENDO LISTA: ", empleado.data)
         if (empleado.count === 0) {
-          console.warn("LA LISTA ESTA VACÍA")
           res.status(401).json({ message: 'Necesita ser un empleado para ingresar' });
           return;
         }

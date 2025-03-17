@@ -103,7 +103,6 @@ export class ClienteMySQLRepository implements ClienteRepository {
   }
 
   public async update(id: number, cliente: ClientePrimitive): Promise<void> {
-    console.warn("Cliente nuevo: ", cliente)
     await db
       .update(clientes)
       .set({

@@ -10,6 +10,7 @@ import { UsuarioTelefono } from '../../Domain/Entities/UsuarioTelefono';
 import { UsuarioEstatus } from '../../Domain/Entities/UsuarioEstatus';
 import { UsuarioRepository } from '../../Domain/Entities/UsuarioRepository';
 import { UsuarioCreateDto } from '../../Domain/Interfaces/UsuarioCreateDto';
+import bcrypt from 'bcrypt'
 
 export class CreateUsuario {
   public constructor(private readonly usuarioRepo: UsuarioRepository) {}
@@ -36,6 +37,10 @@ export class CreateUsuario {
       new UsuarioTelefono(telefono),
       new UsuarioEstatus(estatus),
     );
+
+    const hashedPassword = await bcrypt.hashSync(nuevoUsuario.usuarioPassword.value, 10)
+    nuevoUsuario.usuarioPassword.value = hashedPassword
+
     await this.usuarioRepo.create(nuevoUsuario.toUsuarioPrimitive());
   }
 }

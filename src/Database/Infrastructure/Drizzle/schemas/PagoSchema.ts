@@ -1,5 +1,4 @@
 import { mysqlTable, int, varchar } from 'drizzle-orm/mysql-core';
-import { ClienteSchema } from './ClienteSchema';
 import { MembresiaSchema } from './MembresiaSchema';
 import { PromocionSchema } from './PromocionSchema';
 
@@ -11,9 +10,6 @@ export const PagoSchema = mysqlTable('pagos', {
   membresia_id: int()
     .notNull()
     .references(() => MembresiaSchema.id, { onDelete: 'cascade' }),
-  cliente_id: int()
-    .notNull()
-    .references(() => ClienteSchema.id, { onDelete: 'cascade' }),
   promocion_id: int()
     .notNull()
     .references(() => PromocionSchema.id, { onDelete: 'cascade' }),

@@ -6,7 +6,7 @@ import { UsuarioPrimitive } from '../../Domain/Interfaces/UsuarioPrimitive'
 export class Login {
   public constructor(private readonly usuarioRepository: UsuarioRepository) {}
 
-  public async run(correo: string, password: string, isWeb: string): Promise<UsuarioPrimitive[]> {
+  public async run(correo: string, password: string, isWeb: string): Promise<UsuarioPrimitive | null> {
     const corr = new UsuarioCorreo(correo)
     const pass = new UsuarioPassword(password)
 

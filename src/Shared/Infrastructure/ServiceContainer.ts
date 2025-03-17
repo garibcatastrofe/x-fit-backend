@@ -4,9 +4,9 @@ import { DeleteUsuario } from '@/src/Usuarios/Application/Delete';
 import { GetAllUsuarios } from '@/src/Usuarios/Application/GetAll';
 import { GetUsuarioById } from '@/src/Usuarios/Application/GetById';
 import { UpdateUsuario } from '@/src/Usuarios/Application/Update';
-import { Login } from '@/src/Usuarios/Application/Login'
-import { Verify } from '@/src/Usuarios/Application/Verify'
-import { Logout } from '@/src/Usuarios/Application/Logout'
+import { Login } from '@/src/Usuarios/Application/Login';
+import { Verify } from '@/src/Usuarios/Application/Verify';
+import { Logout } from '@/src/Usuarios/Application/Logout';
 import { UsuarioMySQLRepository } from '@/src/Usuarios/Infrastructure/DrizzleMySQLRepository';
 
 // PAGOS
@@ -56,6 +56,14 @@ import { GetAllCliente } from '@/src/Clientes/Application/GetAll';
 import { GetClienteById } from '@/src/Clientes/Application/GetById';
 import { UpdateCliente } from '@/src/Clientes/Application/Update';
 import { ClienteMySQLRepository } from '@/src/Clientes/Infrastructure/DrizzleMySQLRepository';
+
+// CLIENTES
+import { CreatePagoCliente } from '@/src/PagosClientes/Application/Create';
+import { DeletePagoCliente } from '@/src/PagosClientes/Application/Delete';
+import { GetAllPagosCliente } from '@/src/PagosClientes/Application/GetAll';
+import { GetPagoClienteById } from '@/src/PagosClientes/Application/GetById';
+import { UpdatePagoCliente } from '@/src/PagosClientes/Application/Update';
+import { PagoClienteMySQLRepository } from '@/src/PagosClientes/Infrastructure/DrizzleMySQLRepository';
 
 // ALIMENTOS
 import { CreateAlimento } from '@/src/Alimentos/Application/Create';
@@ -120,6 +128,7 @@ const PromocionRepository = new PromocionMySQLRepository();
 const EmpleadoRepository = new EmpleadoMySQLRepository();
 const PonchadaRepository = new PonchadaMySQLRepository();
 const ClienteRepository = new ClienteMySQLRepository();
+const PagoClienteRepository = new PagoClienteMySQLRepository();
 const AlimentoRepository = new AlimentoFirebaseRepository();
 const EjercicioRepository = new EjercicioFirebaseRepository();
 const DietaRepository = new DietaFirebaseRepository();
@@ -137,15 +146,10 @@ export const ServiceContainer = {
     delete: new DeleteUsuario(UsuarioRepository),
     login: new Login(UsuarioRepository),
     verify: new Verify(),
-    logout: new Logout()
+    logout: new Logout(),
   },
   Pagos: {
-    create: new CreatePago(
-      PagoRepository,
-      MembresiaRepository,
-      ClienteRepository,
-      PromocionRepository,
-    ),
+    create: new CreatePago(PagoRepository, MembresiaRepository, PromocionRepository),
     getAll: new GetAllPagos(PagoRepository),
     getById: new GetPagoById(PagoRepository),
     update: new UpdatePago(PagoRepository),
@@ -169,7 +173,7 @@ export const ServiceContainer = {
     create: new CreateEmpleado(EmpleadoRepository, UsuarioRepository),
     getAll: new GetAllEmpleado(EmpleadoRepository),
     getById: new GetEmpleadoById(EmpleadoRepository),
-    update: new UpdateEmpleado(EmpleadoRepository, UsuarioRepository),
+    update: new UpdateEmpleado(EmpleadoRepository),
     delete: new DeleteEmpleado(EmpleadoRepository),
   },
   Ponchadas: {
@@ -183,8 +187,15 @@ export const ServiceContainer = {
     create: new CreateCliente(ClienteRepository, UsuarioRepository),
     getAll: new GetAllCliente(ClienteRepository),
     getById: new GetClienteById(ClienteRepository),
-    update: new UpdateCliente(ClienteRepository, UsuarioRepository),
+    update: new UpdateCliente(ClienteRepository),
     delete: new DeleteCliente(ClienteRepository),
+  },
+  PagosClientes: {
+    create: new CreatePagoCliente(PagoClienteRepository, ClienteRepository, PagoRepository),
+    getAll: new GetAllPagosCliente(PagoClienteRepository),
+    getById: new GetPagoClienteById(PagoClienteRepository),
+    update: new UpdatePagoCliente(PagoClienteRepository),
+    delete: new DeletePagoCliente(PagoClienteRepository),
   },
   Alimentos: {
     create: new CreateAlimento(AlimentoRepository),

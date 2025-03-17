@@ -1,7 +1,7 @@
 // Config
 import express from 'express';
 import cors from 'cors';
-import cookieParser from "cookie-parser";
+import cookieParser from 'cookie-parser';
 import handlerError from './Shared/Infrastructure/Utils/Middlewares/HandlerError';
 
 // Routers
@@ -12,6 +12,7 @@ import { PromocionRouter } from './Promociones/Infrastructure/Router';
 import { EmpleadoRouter } from './Empleados/Infrastructure/Router';
 import { PonchadaRouter } from './Ponchadas/Infrastructure/Router';
 import { ClienteRouter } from './Clientes/Infrastructure/Router';
+import { PagoClienteRouter } from './PagosClientes/Infrastructure/Router';
 import { AlimentoRouter } from './Alimentos/Infrastructure/Router';
 import { EjercicioRouter } from './Ejercicios/Infrastructure/Router';
 import { DietaRouter } from './Dietas/Infrastructure/Router';
@@ -29,9 +30,9 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Tu frontend
+    origin: 'http://localhost:5173', // Tu frontend
     credentials: true, // Permitir envío de cookies
-  })
+  }),
 );
 app.use(cookieParser());
 
@@ -44,6 +45,7 @@ app.use(PREFIX, PromocionRouter);
 app.use(PREFIX, EmpleadoRouter);
 app.use(PREFIX, PonchadaRouter);
 app.use(PREFIX, ClienteRouter);
+app.use(PREFIX, PagoClienteRouter);
 app.use(PREFIX, AlimentoRouter);
 app.use(PREFIX, EjercicioRouter);
 app.use(PREFIX, DietaRouter);

@@ -2,12 +2,13 @@ import { db } from '@/src/Database/Infrastructure/Drizzle/DrizzleMySQLService';
 import { UsuarioSchema as usuarios } from '@/src/Database/Infrastructure/Drizzle/schemas/UsuarioSchema';
 import { UsuarioPrimitive } from '../Domain/Interfaces/UsuarioPrimitive';
 import { IQuery } from '@/src/Shared/Domain/Interfaces/QueryCompleteSearch';
-import { asc, desc, eq, and, count } from 'drizzle-orm';
+import { asc, desc, eq, count } from 'drizzle-orm';
 import { UsuarioRepository } from '../Domain/Entities/UsuarioRepository';
 import { PaginatedResponseUsuarios } from '@/src/Shared/Domain/Interfaces/Responses';
 import { UsuarioWithRelations } from '../Domain/Interfaces/Responses';
 import { EmpleadoSchema as empleados } from '@/src/Database/Infrastructure/Drizzle/schemas/EmpleadoSchema';
 import { ClienteSchema as clientes } from '@/src/Database/Infrastructure/Drizzle/schemas/ClienteSchema';
+import bcrypt from 'bcrypt';
 
 export class UsuarioMySQLRepository implements UsuarioRepository {
   public async create(usuario: Omit<UsuarioPrimitive, 'id'>): Promise<void> {
@@ -107,21 +108,38 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
     return usuario[0] ?? null;
   }
 
-  public async login(correo: string, password: string): Promise<UsuarioPrimitive[]> {
+  public async login(correo: string, password: string): Promise<UsuarioPrimitive | null> {
+    // Buscar usuario por correo
     const usuario = await db
       .select()
       .from(usuarios)
-      .where(and(eq(usuarios.correo, correo), eq(usuarios.password, password)));
+      .where(eq(usuarios.correo, correo))
+      .then(rows => rows[0]); // Obtener el primer usuario encontrado
 
-    console.warn(correo);
-    console.warn(password);
-    console.warn(usuario);
+    // Si el usuario no existe, retornar null
+    if (!usuario) {
+      return null
+    };
 
-    return usuario ?? null;
+    // Comparar la contraseña ingresada con la guardada en la base de datos
+    const passwordMatch = await bcrypt.compare(password, usuario.password);
+
+    // Si la contraseña no coincide, retornar null
+    if (!passwordMatch) {
+      return null;
+    }
+
+    // Retornar el usuario si la contraseña es correcta
+    return usuario;
   }
 
   public async update(id: number, usuario: UsuarioPrimitive): Promise<void> {
     try {
+      const hashedPassword = bcrypt.hashSync(
+        usuario.password == null ? '12345' : usuario.password,
+        10,
+      );
+
       await db
         .update(usuarios)
         .set({
@@ -130,7 +148,7 @@ export class UsuarioMySQLRepository implements UsuarioRepository {
           genero: usuario.genero,
           fecha_nacimiento: usuario.fecha_nacimiento,
           correo: usuario.correo,
-          password: usuario.password,
+          password: hashedPassword,
           telefono: usuario.telefono,
           estatus: usuario.estatus,
         })
