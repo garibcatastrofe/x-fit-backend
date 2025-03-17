@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ServiceContainer } from '@/src/Shared/Infrastructure/ServiceContainer';
 import { PagoPrimitive } from '../Domain/Interfaces/PagoPrimitive';
+import { PagoClientePrimitive } from '@/src/PagosClientes/Domain/Interfaces/PagoClientePrimitive';
 
 const { Pagos: Pago } = ServiceContainer;
 
@@ -17,12 +18,36 @@ export class PagoController {
 
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 1, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 0,
+        perPage = 10,
+        order = 'asc',
+        orderBy = 'id',
+        eqAtribute = '',
+        atribute = '',
+      } = req.query;
+
+      const validOrderByFields = [
+        'id',
+        'monto',
+        'fecha_pago',
+        'fecha_vencimiento',
+        'membresia_id',
+        'promocion_id',
+        'cliente_id',
+      ];
+
+      if (!validOrderByFields.includes(orderBy.toString())) {
+        throw new Error(`Invalid orderBy field: ${orderBy}`);
+      }
+
       const pagos = await Pago.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
-        orderBy: orderBy as keyof PagoPrimitive,
+        orderBy: orderBy as keyof (PagoPrimitive | PagoClientePrimitive),
+        eqAtribute: eqAtribute as keyof (PagoPrimitive | PagoClientePrimitive),
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(pagos);
