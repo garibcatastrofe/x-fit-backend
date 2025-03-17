@@ -1,25 +1,25 @@
-import { Empleado } from '../../Domain/Entities/Empleado';
+/* import { Empleado } from '../../Domain/Entities/Empleado'; */
 import { EmpleadoId } from '../../Domain/Entities/EmpleadoId';
-import { EmpleadoPuesto } from '../../Domain/Entities/EmpleadoPuesto';
+/* import { EmpleadoPuesto } from '../../Domain/Entities/EmpleadoPuesto';
 import { EmpleadoIsAdmin } from '../../Domain/Entities/EmpleadoIsAdmin';
-import { UsuarioId } from '@/src/Usuarios/Domain/Entities/UsuarioId';
+import { UsuarioId } from '@/src/Usuarios/Domain/Entities/UsuarioId'; */
 
 import { EmpleadoRepository } from '../../Domain/Entities/EmpleadoRepository';
-import { UsuarioRepository } from '@/src/Usuarios/Domain/Entities/UsuarioRepository';
+/* import { UsuarioRepository } from '@/src/Usuarios/Domain/Entities/UsuarioRepository';
 import { UpdateEmpleadoDto } from '../../Domain/Interfaces/UpdateEmpleadoDto';
 
-import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
+import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest'; */
+import { EmpleadoPrimitive } from '../../Domain/Interfaces/EmpleadoPrimitive';
 
 export class UpdateEmpleado {
   public constructor(
     private readonly empleadoRepo: EmpleadoRepository,
-    private readonly usuarioRepo: UsuarioRepository,
   ) {}
 
-  public async run(id: number, { usuario_id }: UpdateEmpleadoDto): Promise<void> {
+  public async run(id: number, empleado: EmpleadoPrimitive): Promise<void> {
     const empleadoId = new EmpleadoId(id);
 
-    const empleadoViejo = await this.empleadoRepo.getById(empleadoId.value);
+    /* const empleadoViejo = await this.empleadoRepo.getById(empleadoId.value);
 
     if (usuario_id) await this.usuarioRepo.getById(usuario_id);
 
@@ -36,7 +36,8 @@ export class UpdateEmpleado {
       new EmpleadoPuesto(empleadoViejo == null ? 'Sin puesto' : empleadoViejo.puesto),
       new EmpleadoIsAdmin(empleadoViejo == null ? 'NO' : empleadoViejo.is_admin),
       new UsuarioId(usuario_id),
-    );
-    await this.empleadoRepo.update(empleadoId.value, newEmpleado.toPrimitive());
+    ); */
+
+    await this.empleadoRepo.update(empleadoId.value, empleado);
   }
 }

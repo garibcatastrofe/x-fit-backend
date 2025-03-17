@@ -3,8 +3,9 @@ import { ServiceContainer } from '@/src/Shared/Infrastructure/ServiceContainer';
 import { UsuarioPrimitive } from '../Domain/Interfaces/UsuarioPrimitive';
 import jwt from 'jsonwebtoken';
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
+import { EmpleadoPrimitive } from '@/src/Empleados/Domain/Interfaces/EmpleadoPrimitive';
 
-const { Usuarios: Usuario } = ServiceContainer;
+const { Usuarios: Usuario, Empleados: Empleado } = ServiceContainer;
 const SECRET_KEY = 'secreto_super_seguro';
 
 export class UsuarioController {
@@ -15,12 +16,12 @@ export class UsuarioController {
         page: 0,
         perPage: 1,
         order: 'desc',
-        orderBy: "id",
-        eqAtribute: "correo",
+        orderBy: 'id',
+        eqAtribute: 'correo',
         atribute: body.correo,
       });
 
-      if(usuarioCorreo.data.length === 1) {
+      if (usuarioCorreo.data.length === 1) {
         throw new BadRequest({
           message: 'Ya existe un usuario con ese correo',
           campo: 'correo',
@@ -81,8 +82,8 @@ export class UsuarioController {
 
   public async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { correo, password } = req.body;
-      const usuario = await Usuario.login.run(correo, password);
+      const { correo, password, isWeb } = req.body;
+      const usuario = await Usuario.login.run(correo, password, isWeb);
 
       if (usuario.length === 0) {
         res.status(401).json({ message: 'Correo o contraseña incorrectos' });
@@ -91,6 +92,25 @@ export class UsuarioController {
 
       const idArray = usuario.map(u => u.id);
       const id = idArray[0];
+
+      console.warn("ID DEL USUARIO RECUPERADO: ", id)
+
+      if (isWeb === 'true') {
+        const empleado = await Empleado.getAll.run({
+          page: 0,
+          perPage: 1,
+          order: 'asc',
+          orderBy: 'id' as keyof (EmpleadoPrimitive | UsuarioPrimitive),
+          eqAtribute: 'usuario_id' as keyof (EmpleadoPrimitive | UsuarioPrimitive),
+          atribute: id == null ? '' : id.toString(),
+        });
+        console.warn("IMPRIMIENDO LISTA: ", empleado.data)
+        if (empleado.count === 0) {
+          console.warn("LA LISTA ESTA VACÍA")
+          res.status(401).json({ message: 'Necesita ser un empleado para ingresar' });
+          return;
+        }
+      }
 
       const accessToken = jwt.sign({ id }, SECRET_KEY, { expiresIn: '7d' });
 

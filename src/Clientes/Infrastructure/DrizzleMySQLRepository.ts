@@ -80,12 +80,16 @@ export class ClienteMySQLRepository implements ClienteRepository {
             : asc(usuarios[orderBy as keyof UsuarioPrimitive])
           : orderBy in clientes
             ? desc(clientes[orderBy as keyof ClientePrimitive])
-            : desc(usuarios[orderBy as keyof UsuarioPrimitive])
+            : desc(usuarios[orderBy as keyof UsuarioPrimitive]),
       )
       .limit(perPage)
       .offset(page * perPage);
 
-    const clientesCount = await db.select({ count: count() }).from(clientes);
+    const clientesCount = await db
+      .select({ count: count() })
+      .from(clientes)
+      .where(atribute !== '0' && whereCondition ? whereCondition : undefined)
+      .leftJoin(usuarios, eq(clientes.usuario_id, usuarios.id));
 
     return {
       data: rows,
@@ -99,6 +103,7 @@ export class ClienteMySQLRepository implements ClienteRepository {
   }
 
   public async update(id: number, cliente: ClientePrimitive): Promise<void> {
+    console.warn("Cliente nuevo: ", cliente)
     await db
       .update(clientes)
       .set({
