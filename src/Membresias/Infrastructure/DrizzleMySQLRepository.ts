@@ -13,6 +13,7 @@ export class MembresiaMySQLRepository implements MembresiaRepository {
         precio: membresia.precio,
         duracion_meses: membresia.duracion_meses,
         descripcion: membresia.descripcion,
+        tipo: membresia.tipo,
       });
     } catch (error) {
       console.error(error);
@@ -46,6 +47,7 @@ export class MembresiaMySQLRepository implements MembresiaRepository {
           precio: membresia.precio,
           duracion_meses: membresia.duracion_meses,
           descripcion: membresia.descripcion,
+          tipo: membresia.tipo,
         })
         .where(eq(membresias.id, id));
     } catch (error) {

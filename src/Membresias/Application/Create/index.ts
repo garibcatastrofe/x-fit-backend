@@ -4,6 +4,7 @@ import { MembresiaNombre } from '../../Domain/Entities/MembresiaNombre';
 import { MembresiaPrecio } from '../../Domain/Entities/MembresiaPrecio';
 import { MembresiaDuracionMeses } from '../../Domain/Entities/MembresiaDuracionMeses';
 import { MembresiaDescripcion } from '../../Domain/Entities/MembresiaDescripcion';
+import { MembresiaTipo } from '../../Domain/Entities/MembresiaTipo';
 import { MembresiaRepository } from '../../Domain/Entities/MembresiaRepository';
 import { MembresiaCreateDto } from '../../Domain/Interfaces/MembresiaCreateDto';
 
@@ -16,6 +17,7 @@ export class CreateMembresia {
     precio,
     duracion_meses,
     descripcion,
+    tipo,
   }: MembresiaCreateDto): Promise<void> {
     const nuevaMembresia = new Membresia(
       id ? new MembresiaId(id) : MembresiaId.random(),
@@ -23,6 +25,7 @@ export class CreateMembresia {
       new MembresiaPrecio(precio),
       new MembresiaDuracionMeses(duracion_meses),
       new MembresiaDescripcion(descripcion),
+      new MembresiaTipo(tipo),
     );
     await this.membresiaRepo.create(nuevaMembresia.toMembresiaPrimitive());
   }

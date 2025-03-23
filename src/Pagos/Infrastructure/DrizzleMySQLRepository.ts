@@ -75,8 +75,8 @@ export class PagoMySQLRepository implements PagoRepository {
         promocion_nombre: promociones.nombre,
         cliente_nombre: sql`CASE 
           WHEN COUNT(${pagos_clientes.cliente_id}) = 1 
-          THEN MAX(${usuarios.nombres}) 
-          ELSE '(Pago grupal)' 
+          THEN MAX(CONCAT(${usuarios.nombres}, ' ', ${usuarios.apellidos})) 
+          ELSE 'GRUPAL' 
         END`.as('cliente_nombre'),
       })
       .from(pagos)
@@ -91,15 +91,31 @@ export class PagoMySQLRepository implements PagoRepository {
       .limit(perPage)
       .offset(page * perPage);
 
-    const pagosCount = await db
-      .select({ count: count() })
-      .from(pagos)
-      .where(atribute !== '0' && whereCondition ? whereCondition : undefined)
-      .leftJoin(membresias, eq(pagos.membresia_id, membresias.id))
-      .leftJoin(promociones, eq(pagos.promocion_id, promociones.id))
-      .leftJoin(pagos_clientes, eq(pagos.id, pagos_clientes.pago_id))
-      .leftJoin(clientes, eq(pagos_clientes.cliente_id, clientes.id))
-      .leftJoin(usuarios, eq(clientes.usuario_id, usuarios.id));
+    const countCondition =
+      eqAtribute === 'id' ||
+      eqAtribute === 'monto' ||
+      eqAtribute === 'fecha_pago' ||
+      eqAtribute === 'fecha_vencimiento' ||
+      eqAtribute === 'membresia_id' ||
+      eqAtribute === 'promocion_id' ||
+      eqAtribute === 'ninguno'
+        ? true
+        : false;
+
+    let pagosCount;
+
+    if (countCondition) {
+      pagosCount = await db
+        .select({ count: count() })
+        .from(pagos)
+        .where(atribute !== '0' && whereCondition ? whereCondition : undefined);
+    } else {
+      pagosCount = await db
+        .select({ count: count() })
+        .from(pagos)
+        .where(atribute !== '0' && whereCondition ? whereCondition : undefined)
+        .innerJoin(pagos_clientes, eq(pagos_clientes.cliente_id, Number(atribute)));
+    }
 
     return {
       data: pagoall,

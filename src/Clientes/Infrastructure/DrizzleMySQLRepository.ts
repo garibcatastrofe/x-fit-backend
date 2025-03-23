@@ -55,7 +55,9 @@ export class ClienteMySQLRepository implements ClienteRepository {
                           ? eq(clientes.fecha_inicio, atribute)
                           : eqAtribute === 'tipo'
                             ? eq(clientes.tipo, atribute)
-                            : undefined;
+                            : eqAtribute === 'usuario_id'
+                              ? eq(clientes.usuario_id, Number(atribute))
+                              : undefined;
     const rows = await db
       .select({
         cliente: clientes,

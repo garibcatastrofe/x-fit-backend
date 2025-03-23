@@ -6,4 +6,5 @@ export const MembresiaSchema = mysqlTable('membresias', {
   precio: double().notNull(),
   duracion_meses: int().notNull(),
   descripcion: varchar({ length: 200 }).notNull(),
+  tipo: varchar({ length: 20 }).notNull(),
 });

@@ -10,7 +10,17 @@ export class PagoController {
     try {
       const body = req.body;
       await Pago.create.run(body);
-      res.status(201).json({ message: 'Pago creado exitosamente' });
+      const ultimoPago = await Pago.getAll.run({
+        page: 0,
+        perPage: 1,
+        order: 'desc',
+        orderBy: 'id',
+        eqAtribute: 'id',
+        atribute: '0',
+      });
+      res
+        .status(201)
+        .json({ id: ultimoPago.data[0].id, message: 'Pago creado exitosamente' });
     } catch (error) {
       next(error);
     }

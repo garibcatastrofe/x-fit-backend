@@ -17,12 +17,28 @@ export class PagoClienteController {
 
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 1, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 0,
+        perPage = 10,
+        order = 'desc',
+        orderBy = 'id',
+        eqAtribute = '',
+        atribute = '',
+      } = req.query;
+
+      const validOrderByFields = ['id', 'cliente_id', 'pago_id'];
+
+      if (!validOrderByFields.includes(orderBy.toString())) {
+        throw new Error(`Invalid orderBy field: ${orderBy}`);
+      }
+
       const pagos = await PagoCliente.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof PagoClientePrimitive,
+        eqAtribute: eqAtribute as keyof PagoClientePrimitive,
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(pagos);
