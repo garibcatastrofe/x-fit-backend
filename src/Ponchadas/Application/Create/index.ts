@@ -15,7 +15,7 @@ export class CreatePonchada {
     private readonly usuarioRepo: UsuarioRepository,
   ) {}
 
-  public async run({ id, fecha, usuario_id }: PonchadaCreateDto): Promise<void> {
+  public async run({ id, fecha, usuario_id }: PonchadaCreateDto): Promise<number> {
     const usuario = await this.usuarioRepo.getById(usuario_id);
     if (!usuario) {
       throw new BadRequest({
@@ -30,6 +30,7 @@ export class CreatePonchada {
       new PonchadaFecha(fecha),
       new UsuarioId(usuario_id),
     );
-    await this.ponchadaRepo.create(newPonchada.toPrimitive());
+    const estatus =  await this.ponchadaRepo.create(newPonchada.toPrimitive());
+    return estatus
   }
 }

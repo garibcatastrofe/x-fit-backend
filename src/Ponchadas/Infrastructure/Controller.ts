@@ -8,20 +8,36 @@ export class PonchadaController {
   public async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const body = req.body;
-      await Ponchada.create.run(body);
-      res.status(201).json({ message: 'Ponchada creada exitosamente' });
+      const estatus = await Ponchada.create.run(body);
+
+      if (estatus === 1) {
+        res.status(201).json({ message: 'Ponchada creada exitosamente' });
+      } else if (estatus === 0) {
+        res.status(400).json({ message: 'No puede pasar, su pago ya vencio' });
+      } else {
+        res.status(400).json({ message: 'Ocurrió un error al generar la ponchada :(' });
+      }
     } catch (error) {
       next(error);
     }
   }
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 0, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 1,
+        perPage = 10,
+        order = 'asc',
+        orderBy = 'id',
+        eqAtribute = '',
+        atribute = '',
+      } = req.query;
       const ponchada = await Ponchada.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof PonchadaPrimitive,
+        eqAtribute: eqAtribute as keyof PonchadaPrimitive,
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(ponchada);
