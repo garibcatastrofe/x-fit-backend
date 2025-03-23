@@ -5,4 +5,4 @@ export interface PagoClienteWithRelations {
   usuario_id: number | null;
   nombres: string | null;
   apellidos: string | null;
-}
+} 
