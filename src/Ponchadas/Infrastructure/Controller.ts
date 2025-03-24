@@ -14,6 +14,14 @@ export class PonchadaController {
         res.status(201).json({ message: 'Ponchada creada exitosamente' });
       } else if (estatus === 0) {
         res.status(400).json({ message: 'No puede pasar, su pago ya vencio' });
+      } else if (estatus === 2) {
+        res.status(400).json({ message: 'No puede pasar, usted ya poncho hoy' });
+      } else if (estatus === -2) {
+        res.status(400).json({ message: 'Cliente no encontrado' });
+      } else if (estatus === -3) {
+        res.status(400).json({ message: 'Pc no encontrado' });
+      } else if (estatus === -4) {
+        res.status(400).json({ message: 'Pago no encontrado' });
       } else {
         res.status(400).json({ message: 'Ocurrió un error al generar la ponchada :(' });
       }
