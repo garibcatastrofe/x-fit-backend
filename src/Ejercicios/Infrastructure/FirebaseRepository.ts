@@ -3,6 +3,8 @@ import { EjercicioQuery } from '../Domain/Interfaces/FirebaseQuery';
 import { EjercicioRepository } from '../Domain/Entities/EjercicioRepository';
 import { firestore } from '@/src/Database/Infrastructure/Firebase/firebase';
 import { BadRequest } from '@/src/Shared/Domain/Exceptions/BadRequest';
+import { PaginatedResponse } from '@/src/Shared/Domain/Interfaces/Responses';
+import { EjercicioWithRelations } from '../Domain/Interfaces/Responses';
 
 function esEjercicioPrimitive(
   objeto: Partial<EjercicioPrimitive>, // Permitimos objeto parcial para evitar errores con `id`
@@ -39,7 +41,7 @@ export class EjercicioFirebaseRepository implements EjercicioRepository {
     order,
     orderBy,
     direction,
-  }: EjercicioQuery<EjercicioPrimitive>): Promise<EjercicioPrimitive[]> {
+  }: EjercicioQuery<EjercicioPrimitive>): Promise<PaginatedResponse<EjercicioWithRelations>> {
     let query = firestore.collection('ejercicios').orderBy(orderBy, order);
 
     if (esEjercicioPrimitive(ultimoDoc, false)) {
@@ -66,14 +68,22 @@ export class EjercicioFirebaseRepository implements EjercicioRepository {
     const snapshot = await query.limit(perPage).get();
 
     if (snapshot.empty) {
-      return [];
+      return {
+        data: [],
+        count: 0,
+      };
     }
 
-    const docs: EjercicioPrimitive[] = snapshot.docs.map(
-      doc => ({ id: doc.id, ...doc.data() }) as EjercicioPrimitive,
-    );
+    const docs: EjercicioWithRelations[] = snapshot.docs.map(doc => ({
+      ejercicio: { id: doc.id, ...doc.data() } as EjercicioPrimitive,
+    }));
 
-    return docs;
+    const snapshotCount = await firestore.collection('ejercicios').count().get();
+
+    return {
+      data: docs,
+      count: snapshotCount.data().count,
+    };
   }
 
   public async getById(id: string): Promise<EjercicioPrimitive | null> {

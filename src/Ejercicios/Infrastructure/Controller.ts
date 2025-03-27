@@ -16,7 +16,7 @@ export class EjercicioController {
   }
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { perPage = 5, order = 'asc', orderBy = 'id', direction = 'next' } = req.query; //Aquí le mandaremos cuantos alimentos queremos por página, en que orden y por cual campo lo vamos a ordenar
+      const { perPage = 10, order = 'desc', orderBy = 'id', direction = 'next' } = req.query; //Aquí le mandaremos cuantos alimentos queremos por página, en que orden y por cual campo lo vamos a ordenar
       const ultimoEjercicio = req.body; //Aquí le tendremos que mandar el alimento en json, que será el último alimento para la paginación, de tipo AlimentoPrimitive
 
       const ejercicios = await Ejercicio.getAll.run({
