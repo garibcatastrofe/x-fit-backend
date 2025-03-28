@@ -41,10 +41,31 @@ export class EjercicioFirebaseRepository implements EjercicioRepository {
     order,
     orderBy,
     direction,
+    /* eqAtribute,
+    atribute */
   }: EjercicioQuery<EjercicioPrimitive>): Promise<PaginatedResponse<EjercicioWithRelations>> {
     let query = firestore.collection('ejercicios').orderBy(orderBy, order);
 
+    /* console.warn("----------------------------------------------------------------------")
+    console.warn("Entrando a select all")
+    console.warn("ultimoDoc: ", ultimoDoc)
+    console.warn("perPage: ", perPage)
+    console.warn("order: ", order)
+    console.warn("orderBy: ", orderBy)
+    console.warn("direction: ", direction) */
+
+    //PENDIENTE: CREAR INDICES COMPUESTOS PARA LAS CONSULTAS WHERE
+    /* console.warn("eqAtribute: ", eqAtribute)
+    console.warn("atribute: ", atribute) */
+
+    // Agregar filtro si eqAtribute y atribute están definidos
+    /* if (atribute !== "") {
+      query = query.where(eqAtribute, "==", atribute);
+      console.warn(`Aplicando filtro WHERE: ${eqAtribute} == ${atribute}`);
+    } */
+
     if (esEjercicioPrimitive(ultimoDoc, false)) {
+      //console.warn("EL DOCUMENTO QUE LLEGA ES EJERCICIO PRIMITIVE!!!!: ", ultimoDoc)
       const lastDocSnap = await firestore
         .collection('ejercicios')
         .doc(ultimoDoc.id ?? '')
@@ -79,6 +100,8 @@ export class EjercicioFirebaseRepository implements EjercicioRepository {
     }));
 
     const snapshotCount = await firestore.collection('ejercicios').count().get();
+
+    //console.warn(docs)
 
     return {
       data: docs,

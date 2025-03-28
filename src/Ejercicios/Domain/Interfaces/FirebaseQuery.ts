@@ -6,4 +6,6 @@ export interface EjercicioQuery<T> {
   order: 'asc' | 'desc';
   orderBy: keyof T;
   direction: string;
+  /* eqAtribute: keyof T;
+  atribute: string; */
 }
