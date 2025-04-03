@@ -23,7 +23,7 @@ export class UsuarioPassword {
         data: value,
       });
 
-    if (value.length > 50)
+    if (value.length > 255)
       throw new BadRequest({
         message: 'La contraseña debe ser menos de 255 caracteres',
         campo: this.campo,

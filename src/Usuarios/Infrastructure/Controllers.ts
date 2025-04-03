@@ -52,9 +52,10 @@ export class UsuarioController {
         perPage = 10,
         order = 'asc',
         orderBy = 'id',
-        eqAtribute = 'id',
-        atribute = '1',
+        eqAtribute = '',
+        atribute = '',
       } = req.query;
+
       const usuarios = await Usuario.getAll.run({
         page: Number(page),
         perPage: Number(perPage),

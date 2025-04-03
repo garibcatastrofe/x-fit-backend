@@ -17,12 +17,21 @@ export class MembresiaController {
 
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 1, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 1,
+        perPage = 10,
+        order = 'asc',
+        orderBy = 'id',
+        eqAtribute = '',
+        atribute = '',
+      } = req.query;
       const pagos = await Membresia.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof MembresiaPrimitive,
+        eqAtribute: eqAtribute as keyof MembresiaPrimitive,
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(pagos);
