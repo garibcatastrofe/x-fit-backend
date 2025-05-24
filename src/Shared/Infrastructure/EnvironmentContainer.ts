@@ -1,7 +1,13 @@
 import { Environment } from '../Domain/Entities/Environment';
 import { validateEnvironment } from './EnvironmentValidator';
+import dotenv from 'dotenv';
 
-process.loadEnvFile();
+/* process.loadEnvFile(); */
+
+// ✅ Carga .env solo en desarrollo, pero de forma SINCRÓNICA
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 export class EnvironmentContainer {
   private static instance: Environment;
