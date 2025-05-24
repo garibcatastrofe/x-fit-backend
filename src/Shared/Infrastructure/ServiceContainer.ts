@@ -31,7 +31,7 @@ import { DeletePromocion } from '@/src/Promociones/Application/Delete';
 import { GetAllPromociones } from '@/src/Promociones/Application/GetAll';
 import { GetPromocionById } from '@/src/Promociones/Application/GetById';
 import { UpdatePromocion } from '@/src/Promociones/Application/Update';
-import { PromocionMySQLRepository } from '@/src/Promociones/Infrastructure/DrizzleMySQLRepositoty';
+import { PromocionMySQLRepository } from '@/src/Promociones/Infrastructure/DrizzleMySQLRepository';
 
 // EMPLEADOS
 import { CreateEmpleado } from '@/src/Empleados/Application/Create';

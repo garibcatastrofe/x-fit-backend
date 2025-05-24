@@ -17,12 +17,21 @@ export class PromocionController {
 
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { page = 1, perPage = 10, order = 'asc', orderBy = 'id' } = req.query;
+      const {
+        page = 1,
+        perPage = 10,
+        order = 'asc',
+        orderBy = 'id',
+        eqAtribute = '',
+        atribute = '',
+      } = req.query;
       const promociones = await Promocion.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof PromocionPrimitive,
+        eqAtribute: eqAtribute as keyof PromocionPrimitive,
+        atribute: atribute.toString(),
       });
 
       res.status(200).json(promociones);

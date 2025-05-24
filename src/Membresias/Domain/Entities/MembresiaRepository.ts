@@ -1,4 +1,4 @@
-import { IQuery } from '@/src/Shared/Domain/Interfaces/Query';
+import { IQuery } from '@/src/Shared/Domain/Interfaces/QueryCompleteSearch';
 import { MembresiaPrimitive } from '../Interfaces/MembresiaPrimitive';
 import { MembresiaWithRelations } from '../Interfaces/Responses';
 import { PaginatedResponse } from '@/src/Shared/Domain/Interfaces/Responses';

@@ -8,4 +8,5 @@ export const PromocionSchema = mysqlTable('promociones', {
   fecha_inicio: varchar({ length: 19 }).notNull(),
   fecha_vencimiento: varchar({ length: 19 }).notNull(),
   estatus: varchar({ length: 20 }).notNull(),
+  descripcion: varchar({ length: 200 }).notNull(),
 });

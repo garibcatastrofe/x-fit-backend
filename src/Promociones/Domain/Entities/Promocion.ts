@@ -7,6 +7,7 @@ import { PromocionFechaInicio } from './PromocionFechaInicio';
 import { PromocionFechaVencimiento } from './PromocionFechaVencimiento';
 import { PromocionEstatus } from './PromocionEstatus';
 import { EstatusType } from '@/src/Shared/Domain/Interfaces/Estatus';
+import { PromocionDescripcion } from './PromocionDescripcion';
 
 export class Promocion {
   public promocionId: PromocionId;
@@ -16,6 +17,7 @@ export class Promocion {
   public promocionFechaInicio: PromocionFechaInicio;
   public promocionFechaVencimiento: PromocionFechaVencimiento;
   public promocionEstatus: PromocionEstatus;
+  public promocionDescripcion: PromocionDescripcion;
 
   public constructor(
     id: PromocionId,
@@ -25,6 +27,7 @@ export class Promocion {
     fecha_inicio: PromocionFechaInicio,
     fecha_vencimiento: PromocionFechaVencimiento,
     estatus: PromocionEstatus,
+    descripcion: PromocionDescripcion,
   ) {
     this.promocionId = id;
     this.promocionNombre = nombre;
@@ -33,6 +36,7 @@ export class Promocion {
     this.promocionFechaInicio = fecha_inicio;
     this.promocionFechaVencimiento = fecha_vencimiento;
     this.promocionEstatus = estatus;
+    this.promocionDescripcion = descripcion;
   }
 
   public toPromocionPrimitive(): PromocionPrimitive {
@@ -44,6 +48,7 @@ export class Promocion {
       fecha_inicio: this.promocionFechaInicio.value,
       fecha_vencimiento: this.promocionFechaVencimiento.value,
       estatus: this.promocionEstatus.value as EstatusType,
+      descripcion: this.promocionDescripcion.value,
     };
   }
 }

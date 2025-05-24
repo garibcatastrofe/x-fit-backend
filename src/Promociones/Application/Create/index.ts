@@ -6,6 +6,7 @@ import { PromocionTipoDescuento } from '../../Domain/Entities/PromocionTipoDescu
 import { PromocionFechaInicio } from '../../Domain/Entities/PromocionFechaInicio';
 import { PromocionFechaVencimiento } from '../../Domain/Entities/PromocionFechaVencimiento';
 import { PromocionEstatus } from '../../Domain/Entities/PromocionEstatus';
+import { PromocionDescripcion } from '../../Domain/Entities/PromocionDescripcion';
 import { PromocionRepository } from '../../Domain/Entities/PromocionRepository';
 import { PromocionCreateDto } from '../../Domain/Interfaces/PromocionCreateDto';
 
@@ -20,6 +21,7 @@ export class CreatePromocion {
     fecha_inicio,
     fecha_vencimiento,
     estatus,
+    descripcion,
   }: PromocionCreateDto): Promise<void> {
     const nuevaPromocion = new Promocion(
       id ? new PromocionId(id) : PromocionId.random(),
@@ -29,6 +31,7 @@ export class CreatePromocion {
       new PromocionFechaInicio(fecha_inicio),
       new PromocionFechaVencimiento(fecha_vencimiento),
       new PromocionEstatus(estatus),
+      new PromocionDescripcion(descripcion),
     );
     await this.promocionRepo.create(nuevaPromocion.toPromocionPrimitive());
   }
