@@ -10,7 +10,7 @@ import { EmpleadoSchema as empleados } from '@/src/Database/Infrastructure/Drizz
 import { ClienteSchema as clientes } from '@/src/Database/Infrastructure/Drizzle/schemas/ClienteSchema';
 import { PagoClienteSchema as pagos_clientes } from '@/src/Database/Infrastructure/Drizzle/schemas/PagosClientes';
 import { PagoSchema as pagos } from '@/src/Database/Infrastructure/Drizzle/schemas/PagoSchema';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export class UsuarioMySQLRepository implements UsuarioRepository {
   public async create(usuario: Omit<UsuarioPrimitive, 'id'>): Promise<void> {

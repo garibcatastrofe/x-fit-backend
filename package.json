@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "node --run validate-typescript && node --run build:clean && node --run generate-dist",
-    "start": "node dist/main.js",
+    "build": "pnpm run validate-typescript && pnpm run build:clean && pnpm run generate-dist",
+    "start": "node dist/index.js",
     "dev": "nodemon",
     "build:clean": "rimraf dist; exit 0",
     "validate-typescript": "tsc -p tsconfig.prod.json --noEmit",
@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "drizzle-orm": "^0.39.3",
@@ -37,7 +37,7 @@
     "@eslint/js": "^9.18.0",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.7",
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^3.0.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
