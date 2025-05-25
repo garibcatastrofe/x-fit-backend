@@ -49,6 +49,11 @@ export class PromocionMySQLRepository implements PromocionRepository {
                     : eqAtribute === 'descripcion'
                       ? eq(promociones.descripcion, atribute)
                       : undefined;
+    
+    console.warn(whereCondition)
+    console.warn("eqAttribute: ", eqAtribute)
+    console.warn("attribute: ", atribute)
+
     const promocionesAll = await db
       .select({
         promocion: {

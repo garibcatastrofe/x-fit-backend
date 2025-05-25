@@ -22,16 +22,16 @@ export class PromocionController {
         perPage = 10,
         order = 'asc',
         orderBy = 'id',
-        eqAtribute = '',
-        atribute = '',
+        eqAttribute = "",
+        attribute = "",
       } = req.query;
       const promociones = await Promocion.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof PromocionPrimitive,
-        eqAtribute: eqAtribute as keyof PromocionPrimitive,
-        atribute: atribute.toString(),
+        eqAtribute: eqAttribute as keyof PromocionPrimitive,
+        atribute: attribute.toString(),
       });
 
       res.status(200).json(promociones);

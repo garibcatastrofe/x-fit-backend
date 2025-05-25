@@ -1,3 +1,5 @@
+drizzle/
+scripts/
 node_modules/
 dist/
 .tmp
