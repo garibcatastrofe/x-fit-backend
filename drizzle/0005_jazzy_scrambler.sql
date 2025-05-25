@@ -1,1 +1,0 @@
-ALTER TABLE `usuarios` MODIFY COLUMN `estatus` varchar(20) NOT NULL;
