@@ -7,13 +7,14 @@ import { ClienteSchema as clientes } from '@/src/Database/Infrastructure/Drizzle
 import { UsuarioSchema as usuarios } from '@/src/Database/Infrastructure/Drizzle/schemas/UsuarioSchema';
 import { PagoRepository } from '../Domain/Entities/PagoRepository';
 import { PagoPrimitive } from '../Domain/Interfaces/PagoPrimitive';
-import { IQuery } from '@/src/Shared/Domain/Interfaces/QueryCompleteSearch';
+//import { IQuery } from '@/src/Shared/Domain/Interfaces/QueryCompleteSearchWhereCondition';
+import { IQuery } from '../Domain/Interfaces/Query';
 import { asc, desc, eq, count, sql } from 'drizzle-orm';
-import { MembresiaPrimitive } from '@/src/Membresias/Domain/Interfaces/MembresiaPrimitive';
+/* import { MembresiaPrimitive } from '@/src/Membresias/Domain/Interfaces/MembresiaPrimitive';
 import { PromocionPrimitive } from '@/src/Promociones/Domain/Interfaces/PromocionPrimitive';
 import { PagoClientePrimitive } from '@/src/PagosClientes/Domain/Interfaces/PagoClientePrimitive';
 import { ClientePrimitive } from '@/src/Clientes/Domain/Interfaces/ClientePrimitive';
-import { UsuarioPrimitive } from '@/src/Usuarios/Domain/Interfaces/UsuarioPrimitive';
+import { UsuarioPrimitive } from '@/src/Usuarios/Domain/Interfaces/UsuarioPrimitive'; */
 import { PaginatedResponse } from '@/src/Shared/Domain/Interfaces/Responses';
 import { PagoWithRelations } from '../Domain/Interfaces/Responses';
 
@@ -36,34 +37,45 @@ export class PagoMySQLRepository implements PagoRepository {
     perPage,
     order,
     orderBy,
-    eqAtribute,
-    atribute,
-  }: IQuery<
-    | PagoPrimitive
-    | MembresiaPrimitive
-    | PromocionPrimitive
-    | PagoClientePrimitive
-    | ClientePrimitive
-    | UsuarioPrimitive
-  >): Promise<PaginatedResponse<PagoWithRelations>> {
-    const whereCondition =
-      eqAtribute === 'id'
-        ? eq(pagos.id, Number(atribute))
-        : eqAtribute === 'monto'
-          ? eq(pagos.monto, Number(atribute))
-          : eqAtribute === 'fecha_pago'
-            ? eq(pagos.fecha_pago, atribute)
-            : eqAtribute === 'fecha_vencimiento'
-              ? eq(pagos.fecha_vencimiento, atribute)
-              : eqAtribute === 'membresia_id'
-                ? eq(pagos.membresia_id, Number(atribute))
-                : eqAtribute === 'promocion_id'
-                  ? eq(pagos.promocion_id, Number(atribute))
-                  : eqAtribute === 'cliente_id'
-                    ? eq(pagos_clientes.cliente_id, Number(atribute))
-                    : undefined;
+    checkFilters,
+    filters,
+  }: IQuery<PagoPrimitive>): Promise<PaginatedResponse<PagoWithRelations>> {
+    let whereFinal = undefined;
 
-    const pagoall = await db
+    if (checkFilters && filters.length !== 0) {
+      // Construir condiciones dinámicamente
+      const condiciones = filters.map(filtro => {
+        const { campo, operador, valor } = filtro;
+
+        // Validar campo permitido
+        const camposPermitidos = [
+          'id',
+          'monto',
+          'fecha_pago',
+          'fecha_vencimiento',
+          'membresia_id',
+          'promocion_id',
+        ];
+        const operadoresPermitidos = ['=', '!=', '>', '>=', '<', '<='];
+
+        if (!camposPermitidos.includes(campo) || !operadoresPermitidos.includes(operador)) {
+          throw new Error('Campo u operador no permitido');
+        }
+
+        // Obtener la referencia a la columna de Drizzle
+        const columna = pagos[campo];
+
+        return sql`${columna} ${sql.raw(operador)} ${valor}`;
+      });
+
+      // Unir con AND (podrías usar OR si quieres lógica distinta)
+      whereFinal = condiciones.reduce((acc, cond, i) => {
+        return i === 0 ? cond : sql`${acc} AND ${cond}`;
+      });
+    }
+
+    // Consulta
+    const pagosSeleccionados = await db
       .select({
         id: pagos.id,
         monto: pagos.monto,
@@ -80,7 +92,7 @@ export class PagoMySQLRepository implements PagoRepository {
         END`.as('cliente_nombre'),
       })
       .from(pagos)
-      .where(atribute !== '0' && whereCondition ? whereCondition : undefined)
+      .where(whereFinal)
       .leftJoin(membresias, eq(pagos.membresia_id, membresias.id))
       .leftJoin(promociones, eq(pagos.promocion_id, promociones.id))
       .leftJoin(pagos_clientes, eq(pagos.id, pagos_clientes.pago_id))
@@ -89,36 +101,12 @@ export class PagoMySQLRepository implements PagoRepository {
       .groupBy(pagos.id, membresias.id, membresias.nombre, promociones.id, promociones.nombre)
       .orderBy(order === 'asc' ? asc(pagos[orderBy]) : desc(pagos[orderBy]))
       .limit(perPage)
-      .offset(page * perPage);
+      .offset((page - 1) * perPage);
 
-    const countCondition =
-      eqAtribute === 'id' ||
-      eqAtribute === 'monto' ||
-      eqAtribute === 'fecha_pago' ||
-      eqAtribute === 'fecha_vencimiento' ||
-      eqAtribute === 'membresia_id' ||
-      eqAtribute === 'promocion_id' ||
-      eqAtribute === 'ninguno'
-        ? true
-        : false;
-
-    let pagosCount;
-
-    if (countCondition) {
-      pagosCount = await db
-        .select({ count: count() })
-        .from(pagos)
-        .where(atribute !== '0' && whereCondition ? whereCondition : undefined);
-    } else {
-      pagosCount = await db
-        .select({ count: count() })
-        .from(pagos)
-        .where(atribute !== '0' && whereCondition ? whereCondition : undefined)
-        .innerJoin(pagos_clientes, eq(pagos_clientes.cliente_id, Number(atribute)));
-    }
+    const pagosCount = await db.select({ count: count() }).from(pagos).where(whereFinal);
 
     return {
-      data: pagoall,
+      data: pagosSeleccionados,
       count: pagosCount[0].count,
     };
   }

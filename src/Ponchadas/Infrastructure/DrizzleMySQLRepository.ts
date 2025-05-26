@@ -13,8 +13,8 @@ import { PagoSchema as pagos } from '@/src/Database/Infrastructure/Drizzle/schem
 import { EmpleadoSchema as empleados } from '@/src/Database/Infrastructure/Drizzle/schemas/EmpleadoSchema';
 
 async function agregarPonchada({ ponchada }: { ponchada: PonchadaPrimitive }): Promise<number> {
-  console.warn('----------------------------------------------------------');
-  console.warn('EMPEZANDO LA CREACIÓN DE UNA NUEVA PONCHADA PARA EL CLIENTE!');
+  /* console.warn('----------------------------------------------------------');
+  console.warn('EMPEZANDO LA CREACIÓN DE UNA NUEVA PONCHADA PARA EL CLIENTE!'); */
   //En este método se muestra el procedimiento para crear una ponchada
 
   //Primero se busca al cliente del usuario proporcionado en el objeto ponchada
@@ -23,12 +23,12 @@ async function agregarPonchada({ ponchada }: { ponchada: PonchadaPrimitive }): P
     .from(clientes)
     .where(eq(clientes.usuario_id, ponchada.usuario_id))
     .limit(1);
-  console.warn('CLIENTE DE LA PONCHADA: ', cliente[0]);
+  //console.warn('CLIENTE DE LA PONCHADA: ', cliente[0]);
 
   const cliConsulta = cliente[0];
 
   if (cliConsulta === undefined) {
-    console.warn('EL CLIENTE DE ESE USUARIO NO EXISTE, INTENTE CON OTRO USUARIO');
+    //console.warn('EL CLIENTE DE ESE USUARIO NO EXISTE, INTENTE CON OTRO USUARIO');
     return -2;
   } else {
     //Si el cliente del usuario si existe, que debería de ser en el 99.99% de los casos, se verifica su última relación en la tabla pagos_clientes, que podría ser undefined, ya que podría ser alguien nuevo sin ningún pago.
@@ -38,26 +38,26 @@ async function agregarPonchada({ ponchada }: { ponchada: PonchadaPrimitive }): P
       .where(eq(pagos_clientes.cliente_id, cliConsulta.id))
       .orderBy(desc(pagos_clientes.id))
       .limit(1);
-    console.warn('PAGO_CLIENTE: ', pago_cliente[0]);
+    //console.warn('PAGO_CLIENTE: ', pago_cliente[0]);
 
     const consultaPagoCliente = pago_cliente[0];
 
     if (consultaPagoCliente === undefined) {
-      console.warn(
+      /* console.warn(
         'EL CLIENTE QUE USTED SOLICITO NO TIENE NINGUN PAGO REGISTRADO, PORFAVOR REGISTRE SU PAGO E INTENTE NUEVAMENTE MÁS TARDE',
-      );
+      ); */
       return -3;
     } else {
       //Si existe esa relación, quiere decir que existe el pago, por lo tanto nuevamente buscamos el último pago que haya realizado el cliente, que siempre deberá de existir ya que pasó la condición anterior, sin embargo, se hace una comprobación por seguridad.
       const pago = await db.select().from(pagos).where(eq(pagos.id, consultaPagoCliente.pago_id));
-      console.warn('PAGO DEL CLIENTE: ', pago[0]);
+      //console.warn('PAGO DEL CLIENTE: ', pago[0]);
 
       const consultaPago = pago[0];
 
       if (consultaPago === undefined) {
-        console.warn(
+        /* console.warn(
           'EL CLIENTE QUE USTED SOLICITO NO TIENE NINGUN PAGO REGISTRADO, PORFAVOR REGISTRE SU PAGO E INTENTE NUEVAMENTE MÁS TARDE',
-        );
+        ); */
         return -4;
       } else {
         const fechaActual = new Date();
@@ -65,13 +65,13 @@ async function agregarPonchada({ ponchada }: { ponchada: PonchadaPrimitive }): P
         const [year, month, day] = pago[0].fecha_vencimiento.split('-').map(Number);
         const fechaVencimiento = new Date(year, month - 1, day);
 
-        console.warn('FECHA ACTUAL: ', fechaActual);
-        console.warn('FECHA VENCIMIENTO: ', fechaVencimiento);
+        /* console.warn('FECHA ACTUAL: ', fechaActual);
+        console.warn('FECHA VENCIMIENTO: ', fechaVencimiento); */
 
         if (fechaActual <= fechaVencimiento) {
-          console.warn('PUEDE PASAR :)');
+          //console.warn('PUEDE PASAR :)');
         } else {
-          console.warn('NO PUEDE PASAR :(');
+          //console.warn('NO PUEDE PASAR :(');
           return 0;
         }
 
@@ -79,7 +79,7 @@ async function agregarPonchada({ ponchada }: { ponchada: PonchadaPrimitive }): P
           fecha: ponchada.fecha,
           usuario_id: ponchada.usuario_id,
         });
-        console.warn('----------------------------------------------------------');
+        //console.warn('----------------------------------------------------------');
         return 1;
       }
     }
@@ -102,9 +102,25 @@ function esMismoDia(fecha1Str: string, fecha2Str: string): boolean {
 export class PonchadaMySQLRepository implements PonchadaRepository {
   public async create(ponchada: Omit<PonchadaPrimitive, 'id'>): Promise<number> {
     try {
-      console.warn('----------------------------------------------------------');
+      /* console.warn('----------------------------------------------------------');
       console.warn('INICIANDO CREAR PONCHADA');
-      console.warn('PONCHADA: ', ponchada);
+      console.warn('PONCHADA: ', ponchada); */
+
+      const usuario = await db
+        .select()
+        .from(usuarios)
+        .where(eq(usuarios.id, ponchada.usuario_id))
+        .limit(1);
+
+      if (usuario.length === 0) {
+        return -5;
+      } else {
+        const user = usuario[0];
+
+        if (user.estatus !== 'ACTIVO') {
+          return -6;
+        }
+      }
 
       const empleado = await db
         .select()
@@ -113,7 +129,7 @@ export class PonchadaMySQLRepository implements PonchadaRepository {
         .limit(1);
 
       if (empleado.length === 0) {
-        //Si dió 0, quiere decir que no es un empleado, si no un cliente, se procede a buscar la ultima ponchada de el usuario porque el que se intenta buscar
+        //Si dió 0, quiere decir que no es un empleado, si no un cliente, se procede a buscar la ultima ponchada de el usuario por el que se intenta buscar
         const ultimaPonchadaUsuario = await db
           .select()
           .from(ponchadas)
@@ -123,40 +139,40 @@ export class PonchadaMySQLRepository implements PonchadaRepository {
 
         const ultimaPonchada = ultimaPonchadaUsuario[0];
 
-        console.warn('ULTIMA PONCHADA DEL CLIENTE: ', ultimaPonchada);
+        //console.warn('ULTIMA PONCHADA DEL CLIENTE: ', ultimaPonchada);
 
         //Este cliente podría no tener ninguna ponchada, por eso da undefined, de ser ese caso simplemente creamos una
         if (ultimaPonchada === undefined) {
-          console.warn('EL CLIENTE NO TIENE PONCHADAS, SE PROCEDE A AGREGAR UNA!');
+          //console.warn('EL CLIENTE NO TIENE PONCHADAS, SE PROCEDE A AGREGAR UNA!');
           return agregarPonchada({ ponchada: ponchada });
         } else {
           //Si el cliente si tiene una última ponchada, verificamos que no haya ponchado ya el día de hoy, ya  que podría darle su código qr a otra persona e intentar entrar varias veces gratis!!
           const fechaUltimaPonchada = ultimaPonchada.fecha;
           const fechaPonchada = ponchada.fecha;
 
-          console.warn(
+          /* console.warn(
             'EL CLIENTE TIENE PONCHADAS, SE PROCEDE A VERIFICAR QUE NO HAYA PONCHADO YA HOY!',
           );
           console.warn('FECHA ULTIMA PONCHADA: ', fechaUltimaPonchada);
-          console.warn('FECHA PONCHADA RECIBIDA: ', fechaPonchada);
+          console.warn('FECHA PONCHADA RECIBIDA: ', fechaPonchada); */
 
           //esMismoDia es una función que nos verifica si ambas fechas mandadas son iguales o no, sin contar la hora
           if (esMismoDia(fechaUltimaPonchada, fechaPonchada)) {
-            console.warn('Ya has ponchado hoy, no puedes volver a ponchar :(');
+            //console.warn('Ya has ponchado hoy, no puedes volver a ponchar :(');
             return 2;
           } else {
-            console.warn('Puedes ponchar.');
+            //console.warn('Puedes ponchar.');
             return agregarPonchada({ ponchada: ponchada });
           }
         }
       } else {
-        console.warn('----------------------------------------------------------');
-        console.warn('EMPEZANDO LA CREACIÓN DE UNA NUEVA PONCHADA PARA EL EMPLEADO!');
+        //console.warn('----------------------------------------------------------');
+        //console.warn('EMPEZANDO LA CREACIÓN DE UNA NUEVA PONCHADA PARA EL EMPLEADO!');
         await db.insert(ponchadas).values({
           fecha: ponchada.fecha,
           usuario_id: ponchada.usuario_id,
         });
-        console.warn('----------------------------------------------------------');
+        //console.warn('----------------------------------------------------------');
         return 1;
       }
     } catch (error) {

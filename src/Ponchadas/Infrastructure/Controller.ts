@@ -22,6 +22,10 @@ export class PonchadaController {
         res.status(400).json({ message: 'Pc no encontrado' });
       } else if (estatus === -4) {
         res.status(400).json({ message: 'Pago no encontrado' });
+      } else if (estatus === -5) {
+        res.status(400).json({ message: 'Usuario no encontrado' });
+      } else if (estatus === -6) {
+        res.status(400).json({ message: 'Estatus inactivo' });
       } else {
         res.status(400).json({ message: 'Ocurrió un error al generar la ponchada :(' });
       }

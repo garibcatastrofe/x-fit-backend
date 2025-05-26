@@ -11,16 +11,14 @@ export class PagoController {
       const body = req.body;
       await Pago.create.run(body);
       const ultimoPago = await Pago.getAll.run({
-        page: 0,
+        page: 1,
         perPage: 1,
         order: 'desc',
         orderBy: 'id',
-        eqAtribute: 'id',
-        atribute: '0',
+        checkFilters: false,
+        filters: [],
       });
-      res
-        .status(201)
-        .json({ id: ultimoPago.data[0].id, message: 'Pago creado exitosamente' });
+      res.status(201).json({ id: ultimoPago.data[0].id, message: 'Pago creado exitosamente' });
     } catch (error) {
       next(error);
     }
@@ -28,36 +26,15 @@ export class PagoController {
 
   public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const {
-        page = 0,
-        perPage = 10,
-        order = 'asc',
-        orderBy = 'id',
-        eqAtribute = '',
-        atribute = '',
-      } = req.query;
-
-      const validOrderByFields = [
-        'id',
-        'monto',
-        'fecha_pago',
-        'fecha_vencimiento',
-        'membresia_id',
-        'promocion_id',
-        'cliente_id',
-      ];
-
-      if (!validOrderByFields.includes(orderBy.toString())) {
-        throw new Error(`Invalid orderBy field: ${orderBy}`);
-      }
+      const { filters, page, perPage, order, orderBy, checkFilters } = req.body;
 
       const pagos = await Pago.getAll.run({
         page: Number(page),
         perPage: Number(perPage),
         order: order as 'asc' | 'desc',
         orderBy: orderBy as keyof (PagoPrimitive | PagoClientePrimitive),
-        eqAtribute: eqAtribute as keyof (PagoPrimitive | PagoClientePrimitive),
-        atribute: atribute.toString(),
+        checkFilters: checkFilters,
+        filters: filters,
       });
 
       res.status(200).json(pagos);
