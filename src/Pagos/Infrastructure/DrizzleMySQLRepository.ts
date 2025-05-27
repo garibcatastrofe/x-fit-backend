@@ -47,7 +47,6 @@ export class PagoMySQLRepository implements PagoRepository {
       const condiciones = filters.map(filtro => {
         const { campo, operador, valor } = filtro;
 
-        // Validar campo permitido
         const camposPermitidos = [
           'id',
           'monto',
@@ -55,6 +54,7 @@ export class PagoMySQLRepository implements PagoRepository {
           'fecha_vencimiento',
           'membresia_id',
           'promocion_id',
+          'usuario_id', // <- Especial
         ];
         const operadoresPermitidos = ['=', '!=', '>', '>=', '<', '<='];
 
@@ -62,8 +62,19 @@ export class PagoMySQLRepository implements PagoRepository {
           throw new Error('Campo u operador no permitido');
         }
 
-        // Obtener la referencia a la columna de Drizzle
-        const columna = pagos[campo];
+        let columna;
+
+        // Manejo especial para campos de tablas relacionadas
+        if (campo === 'usuario_id') {
+          columna = usuarios.id; // o el campo adecuado
+        } else {
+          columna = pagos[campo as keyof PagoPrimitive];
+        }
+
+        // Validar que columna exista
+        if (!columna) {
+          throw new Error(`No se encontró la columna para el campo: ${campo}`);
+        }
 
         return sql`${columna} ${sql.raw(operador)} ${valor}`;
       });
@@ -85,6 +96,7 @@ export class PagoMySQLRepository implements PagoRepository {
         membresia_nombre: membresias.nombre,
         promocion_id: pagos.promocion_id,
         promocion_nombre: promociones.nombre,
+        usuario_id: usuarios.id,
         cliente_nombre: sql`CASE 
           WHEN COUNT(${pagos_clientes.cliente_id}) = 1 
           THEN MAX(CONCAT(${usuarios.nombres}, ' ', ${usuarios.apellidos})) 
@@ -92,18 +104,24 @@ export class PagoMySQLRepository implements PagoRepository {
         END`.as('cliente_nombre'),
       })
       .from(pagos)
-      .where(whereFinal)
       .leftJoin(membresias, eq(pagos.membresia_id, membresias.id))
       .leftJoin(promociones, eq(pagos.promocion_id, promociones.id))
       .leftJoin(pagos_clientes, eq(pagos.id, pagos_clientes.pago_id))
       .leftJoin(clientes, eq(pagos_clientes.cliente_id, clientes.id))
       .leftJoin(usuarios, eq(clientes.usuario_id, usuarios.id))
+      .where(whereFinal)
       .groupBy(pagos.id, membresias.id, membresias.nombre, promociones.id, promociones.nombre)
       .orderBy(order === 'asc' ? asc(pagos[orderBy]) : desc(pagos[orderBy]))
       .limit(perPage)
       .offset((page - 1) * perPage);
 
-    const pagosCount = await db.select({ count: count() }).from(pagos).where(whereFinal);
+    const pagosCount = await db
+      .select({ count: count() })
+      .from(pagos)
+      .leftJoin(pagos_clientes, eq(pagos.id, pagos_clientes.pago_id))
+      .leftJoin(clientes, eq(pagos_clientes.cliente_id, clientes.id))
+      .leftJoin(usuarios, eq(clientes.usuario_id, usuarios.id))
+      .where(whereFinal)
 
     return {
       data: pagosSeleccionados,

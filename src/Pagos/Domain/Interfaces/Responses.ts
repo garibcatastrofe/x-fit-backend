@@ -7,5 +7,6 @@ export interface PagoWithRelations {
   membresia_nombre: string | null;
   promocion_id: number;
   promocion_nombre: string | null;
+  usuario_id: number | null;
   cliente_nombre: unknown;
 }

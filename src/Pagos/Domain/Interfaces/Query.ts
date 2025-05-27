@@ -17,7 +17,7 @@
 export type OperadorComparacion = '=' | '!=' | '<' | '<=' | '>' | '>=';
 
 export interface Filtro<T> {
-  campo: keyof T;
+  campo: keyof T | 'usuario_id' | 'nombre_completo';
   operador: OperadorComparacion;
   valor: string | number;
 }
